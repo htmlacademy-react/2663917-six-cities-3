@@ -1,0 +1,44 @@
+name: Publish
+
+on:
+  workflow_run:
+    workflows:
+      - Build
+    types:
+      - completed
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Download build
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          name: actions_artifacts
+          workflow: ${{ github.event.workflow_run.workflow_id }}
+
+      - name: Get PR number
+        run: |
+          echo "PR=$(cat env | grep "prev.event.number" | awk -F '=' '{print $2}')" >> $GITHUB_ENV
+          echo "BUILD_URL=$(echo ${{ github.repository }} | sed -r 's/\//\.github\.io\//g')" >> $GITHUB_ENV
+
+      - name: Deploy build to Github Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          clean: true
+          git-config-name: "keksobot"
+          git-config-email: "github+keksobot@htmlacademy.ru"
+          target-folder: ${{ env.PR }}
+          commit-message: "✔️ Сборка #${{ env.PR }}"
+
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            Ваш пулреквест опубликован. Посмотреть можно [здесь](https://${{ env.BUILD_URL }}/${{ env.PR }}/)
+          pr_number: ${{ env.PR }}
