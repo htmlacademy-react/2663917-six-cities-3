@@ -1,8 +1,13 @@
+import { Fragment } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
 function NotFound(): JSX.Element {
   return (
     <Fragment>
+      <Helmet>
+        <title>6 cities: not found</title>
+      </Helmet>
       <h1>
         404.
         <br />
