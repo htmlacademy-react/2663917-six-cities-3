@@ -7,12 +7,14 @@ import NotFound from '../../pages/not-found/not-found';
 import Offer from '../../pages/offer/offer';
 import PrivateRoute from '../private-route/private-route';
 import {HelmetProvider} from 'react-helmet-async';
+import { Offers } from '../../types/offer';
 
 type AppProps = {
-    placesToStayNumber: number;
+  placesToStayNumber: number;  
+  offers: Offers;
 }
 
-function App({placesToStayNumber}: AppProps): JSX.Element {
+function App({placesToStayNumber, offers}: AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
