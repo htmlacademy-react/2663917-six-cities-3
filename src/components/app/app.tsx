@@ -32,7 +32,7 @@ function App({offers}: AppProps): JSX.Element {
               <PrivateRoute
                 authorizationStatus={AuthorizationStatus.Auth}
               >
-                <Favorites offers={offers.filter(offer => offer.isBookmarked)} />
+                <Favorites offers={offers.filter((offer) => offer.isBookmarked)} />
               </PrivateRoute>
             }
           />

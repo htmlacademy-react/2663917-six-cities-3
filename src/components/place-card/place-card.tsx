@@ -10,9 +10,11 @@ type PlaceCardProps = {
 
 function PlaceCard({offer, onMouseEnter}: PlaceCardProps): JSX.Element {
   return (
-    <article 
+    <article
       className="cities__card place-card"
-      onMouseEnter={() => { onMouseEnter(offer.id) }}
+      onMouseEnter={() => {
+        onMouseEnter(offer.id);
+      }}
     >
       {offer.isPremium && (
         <div className="place-card__mark">

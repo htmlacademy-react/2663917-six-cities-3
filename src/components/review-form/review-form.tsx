@@ -2,17 +2,15 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 
 function ReviewForm(): JSX.Element {
   const minReviewLength = 50;
-  
   const [reviewFormData, setReviewFormData] = useState({
     rating: 0,
     review: ''
-  })
-  
+  });
   const reviewFormFieldChangeHandle = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = event.target;
     setReviewFormData({...reviewFormData, [name]: value});
-  }
-  
+  };
+
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={(evt: FormEvent<HTMLFormElement>) => evt.preventDefault()}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
