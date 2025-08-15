@@ -5,15 +5,19 @@ import RatingStarsWidthResolver from '../../utils/ratingStarsWidthResolver';
 
 type PlaceCardProps = {
     offer: Offer;
-    onMouseEnter: (activeOfferId: number) => void;
+    onSetActive: (activeOfferId: number) => void;
+    onResetActive: () => void;
 }
 
-function PlaceCard({offer, onMouseEnter}: PlaceCardProps): JSX.Element {
+function PlaceCard({offer, onSetActive, onResetActive}: PlaceCardProps): JSX.Element {
   return (
     <article
       className="cities__card place-card"
       onMouseEnter={() => {
-        onMouseEnter(offer.id);
+        onSetActive(offer.id);
+      }}
+      onMouseLeave={() => {
+        onResetActive();
       }}
     >
       {offer.isPremium && (
