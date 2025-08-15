@@ -4,9 +4,10 @@ import PlaceCard from '../place-card/place-card';
 
 type OffersListProps = {
     offers: Offers;
+    onActiveChange: (activeOfferId: number | undefined) => void;
 }
 
-function OffersList({offers}: OffersListProps): JSX.Element {
+function OffersList({offers, onActiveChange}: OffersListProps): JSX.Element {
   const [, setActiveOfferId] = useState<number | undefined>(undefined);
 
   return (
@@ -15,8 +16,13 @@ function OffersList({offers}: OffersListProps): JSX.Element {
         <PlaceCard
           offer={offer}
           key={offer.id}
-          onMouseEnter={(activeOfferId: number) => {
-            setActiveOfferId(activeOfferId);
+          onSetActive={(offerId: number) => {
+            setActiveOfferId(offerId);
+            onActiveChange(offerId);
+          }}
+          onResetActive={() => {
+            setActiveOfferId(undefined);
+            onActiveChange(undefined);
           }}
         />))}
     </div>
