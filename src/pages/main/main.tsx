@@ -1,12 +1,32 @@
 import { Link } from 'react-router-dom';
 import OffersList from '../../components/offers-list/offers-list';
 import { Offers } from '../../types/offer';
+import { CITY } from '../../const';
+import Map from '../../components/map/map';
+import { Point } from '../../types/point';
+import { useState } from 'react';
 
 type MainProps = {
     offers: Offers;
 }
 
+const convertToPoints = (offers: Offers) => {
+  return offers.map(offer => ({
+    id: offer.id,
+    lat: offer.lat,
+    lng: offer.lng
+  }));
+}
+
 function Main({offers}: MainProps): JSX.Element {
+  const [activeOfferId, setActiveOfferId] = useState<number | undefined>(undefined);
+  
+  const onActiveChange = (activeOfferId: number | undefined) => {
+    setActiveOfferId(activeOfferId);
+  }
+
+  const points: Point[] = convertToPoints(offers);
+  
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -95,10 +115,10 @@ function Main({offers}: MainProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offers} />
+              <OffersList offers={offers} onActiveChange={onActiveChange}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map city={CITY} points={points} selectedPointId={activeOfferId} />
             </div>
           </div>
         </div>
