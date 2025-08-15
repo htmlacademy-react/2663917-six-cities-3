@@ -8,6 +8,8 @@ export type Offer = {
     price: number;
     currencyCode: string;
     rating: number;
+    lat: number;
+    lng: number;
     isBookmarked: boolean;
     isPremium: boolean;
     mainImageSource: string;

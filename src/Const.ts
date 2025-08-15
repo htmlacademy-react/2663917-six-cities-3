@@ -1,3 +1,5 @@
+import { City } from './types/city';
+
 export enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -11,3 +13,8 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+export const CITY: City = {
+  lat: 52.374,
+  lng: 4.88969,
+  zoom: 20
+};
