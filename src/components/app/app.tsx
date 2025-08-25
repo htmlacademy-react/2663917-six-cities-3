@@ -38,7 +38,7 @@ function App({offers}: AppProps): JSX.Element {
           />
           <Route
             path={AppRoute.Offer}
-            element={<Offer />}
+            element={<Offer offers={offers}/>}
           />
           <Route
             path="*"

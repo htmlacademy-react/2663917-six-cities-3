@@ -16,5 +16,5 @@ export enum AuthorizationStatus {
 export const CITY: City = {
   lat: 52.374,
   lng: 4.88969,
-  zoom: 20
+  zoom: 12
 };
