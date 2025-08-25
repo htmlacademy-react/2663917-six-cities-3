@@ -5,12 +5,11 @@ type ReviewProps = {
     review: ReviewType;
 }
 
-const formatDate = (date: Date) => {
-  return new Intl.DateTimeFormat('en-US', {
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
     month: 'long',
   }).format(date);
-}
 
 function Review({review}: ReviewProps): JSX.Element {
   return (

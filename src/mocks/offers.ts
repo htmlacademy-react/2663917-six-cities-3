@@ -43,6 +43,7 @@ export const offers: Offers = [
       imageSource: 'img/avatar-angelina.jpg'
     },
     reviews: [{
+      id: 1,
       reviewerName: 'Max',
       review: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
       date: new Date('2019-04-24'),
@@ -96,6 +97,7 @@ export const offers: Offers = [
       imageSource: 'img/avatar-max.jpg'
     },
     reviews: [{
+      id: 2,
       reviewerName: 'Marina',
       review: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
       date: new Date('2022-08-14'),
@@ -103,6 +105,7 @@ export const offers: Offers = [
       imageSource: 'img/avatar-angelina.jpg'
     },
     {
+      id: 3,
       reviewerName: 'Ann',
       review: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
       date: new Date('2023-05-20'),
@@ -153,6 +156,7 @@ export const offers: Offers = [
       imageSource: 'img/avatar-angelina.jpg'
     },
     reviews: [{
+      id: 4,
       reviewerName: 'John',
       review: 'A charming and peaceful retreat overlooking the iconic Prinsengracht canal. The historic 18th-century building, with its classic green facade, perfectly captures the timeless beauty and serene atmosphere of Amsterdam’s waterways.',
       date: new Date('2023-11-11'),
@@ -160,6 +164,7 @@ export const offers: Offers = [
       imageSource: 'img/avatar-max.jpg'
     },
     {
+      id: 5,
       reviewerName: 'Emma',
       review: 'Nestled along the tranquil waters of Prinsengracht, this elegant apartment offers a perfect blend of historic charm and modern comfort.',
       date: new Date('2024-12-10'),
@@ -209,6 +214,7 @@ export const offers: Offers = [
       imageSource: 'img/avatar-max.jpg'
     },
     reviews: [{
+      id: 6,
       reviewerName: 'Sarah',
       review: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
       date: new Date('2024-01-05'),

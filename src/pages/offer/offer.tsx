@@ -25,7 +25,7 @@ function Offer({offers}: OfferProps): JSX.Element {
   const onActiveChange = (offerId: number | undefined) => {
     setActiveOfferId(offerId);
   };
-  
+
   return (
     <div className="page">
       <Helmet>
