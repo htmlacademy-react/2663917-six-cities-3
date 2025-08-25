@@ -5,16 +5,11 @@ import Map from '../../components/map/map';
 import { Point } from '../../types/point';
 import { useState } from 'react';
 import { CITY } from '../../Const';
+import { convertToPoints } from '../../utils/offersConverter';
 
 type MainProps = {
     offers: Offers;
 }
-
-const convertToPoints = (offers: Offers) => offers.map((offer) => ({
-  id: offer.id,
-  lat: offer.lat,
-  lng: offer.lng
-}));
 
 function Main({offers}: MainProps): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<number | undefined>(undefined);

@@ -5,6 +5,11 @@ import ReviewsList from '../../components/reviews-list/reviews-list';
 import { useParams } from 'react-router-dom';
 import { Offer as OfferType } from '../../types/offer';
 import { Review } from '../../types/review';
+import { CITY } from '../../Const';
+import { convertToPoints } from '../../utils/offersConverter';
+import Map from '../../components/map/map';
+import { Point } from '../../types/point';
+import { useState } from 'react';
 
 type OfferProps = {
     offers: OfferType[];
@@ -13,6 +18,8 @@ type OfferProps = {
 function Offer({offers}: OfferProps): JSX.Element {
   const { id } = useParams();
   const reviews: Review[] | undefined = offers.find((offer) => offer.id === Number(id))?.reviews;
+  const points: Point[] = convertToPoints(neatestOffers);
+  const [activeOfferId, setActiveOfferId] = useState<number | undefined>(undefined);
   return (
     <div className="page">
       <Helmet>
@@ -173,7 +180,9 @@ function Offer({offers}: OfferProps): JSX.Element {
               </section>
             </div>
           </div>
-          <section className="offer__map map"></section>
+          <div className="container" style={{ height: '575px', padding: '0', marginBottom: '50px' }}>
+            <Map city={CITY} points={points} selectedPointId={activeOfferId} />
+          </div>
         </section>
         <div className="container">
           <section className="near-places places">
