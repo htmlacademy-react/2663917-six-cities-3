@@ -2,7 +2,7 @@ export type Review = {
     id: number;
     reviewerName: string;
     review: string;
-    date: Date;
+    date: string;
     rating: number;
     imageSource: string;
 };

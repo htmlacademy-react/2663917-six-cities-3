@@ -1,21 +1,25 @@
 import { Link } from 'react-router-dom';
 import OffersList from '../../components/offers-list/offers-list';
-import { Offers } from '../../types/offer';
 import Map from '../../components/map/map';
 import { Point } from '../../types/point';
 import { useState } from 'react';
-import { CITY } from '../../Const';
 import { convertToPoints } from '../../utils/offersConverter';
+import { City } from '../../types/city';
+import { useAppSelector } from '../../hooks';
 
 type MainProps = {
-    offers: Offers;
+    cities: City[];
 }
 
-function Main({offers}: MainProps): JSX.Element {
+function Main({cities}: MainProps): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<number | undefined>(undefined);
   const onActiveChange = (offerId: number | undefined) => {
     setActiveOfferId(offerId);
   };
+  const allOffers = useAppSelector((state) => state.offers);
+  const currentCityId = useAppSelector((state) => state.cityId);
+  const city = cities.filter((c) => c.id === currentCityId)[0];
+  const offers = allOffers.filter((offer) => offer.cityId === currentCityId);
   const points: Point[] = convertToPoints(offers);
 
   return (
@@ -90,7 +94,7 @@ function Main({offers}: MainProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in {city.name}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -109,7 +113,7 @@ function Main({offers}: MainProps): JSX.Element {
               <OffersList offers={offers} onActiveChange={onActiveChange}/>
             </section>
             <div className="cities__right-section">
-              <Map city={CITY} points={points} selectedPointId={activeOfferId} />
+              <Map city={city} points={points} selectedPointId={activeOfferId} />
             </div>
           </div>
         </div>

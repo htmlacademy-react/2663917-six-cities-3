@@ -2,6 +2,7 @@ import { Host } from './host';
 import { Review } from './review';
 export type Offer = {
     id: number;
+    cityId: number;
     type: 'Room' | 'Apartment';
     name: string;
     description: string[];

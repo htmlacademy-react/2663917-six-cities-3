@@ -3,6 +3,7 @@ import { Offers } from '../types/offer';
 export const offers: Offers = [
   {
     id: 1,
+    cityId: 4,
     type: 'Apartment',
     name: 'Beautiful & luxurious apartment at great location',
     price: 120,
@@ -46,7 +47,7 @@ export const offers: Offers = [
       id: 1,
       reviewerName: 'Max',
       review: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
-      date: new Date('2019-04-24'),
+      date: '2019-04-24',
       rating: 4,
       imageSource: 'img/avatar-max.jpg'
     }],
@@ -57,6 +58,7 @@ export const offers: Offers = [
   },
   {
     id: 2,
+    cityId: 4,
     type: 'Room',
     name: 'Wood and stone place',
     price: 80,
@@ -100,7 +102,7 @@ export const offers: Offers = [
       id: 2,
       reviewerName: 'Marina',
       review: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
-      date: new Date('2022-08-14'),
+      date: '2022-08-14',
       rating: 5,
       imageSource: 'img/avatar-angelina.jpg'
     },
@@ -108,7 +110,7 @@ export const offers: Offers = [
       id: 3,
       reviewerName: 'Ann',
       review: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
-      date: new Date('2023-05-20'),
+      date: '2023-05-20',
       rating: 3,
       imageSource: 'img/avatar-angelina.jpg'
     }],
@@ -119,6 +121,7 @@ export const offers: Offers = [
   },
   {
     id: 3,
+    cityId: 4,
     type: 'Apartment',
     name: 'Canal View Prinsengracht',
     price: 132,
@@ -159,7 +162,7 @@ export const offers: Offers = [
       id: 4,
       reviewerName: 'John',
       review: 'A charming and peaceful retreat overlooking the iconic Prinsengracht canal. The historic 18th-century building, with its classic green facade, perfectly captures the timeless beauty and serene atmosphere of Amsterdam’s waterways.',
-      date: new Date('2023-11-11'),
+      date: '2023-11-11',
       rating: 4,
       imageSource: 'img/avatar-max.jpg'
     },
@@ -167,7 +170,7 @@ export const offers: Offers = [
       id: 5,
       reviewerName: 'Emma',
       review: 'Nestled along the tranquil waters of Prinsengracht, this elegant apartment offers a perfect blend of historic charm and modern comfort.',
-      date: new Date('2024-12-10'),
+      date: '2024-12-10',
       rating: 5,
       imageSource: 'img/avatar-angelina.jpg'
     }],
@@ -178,6 +181,7 @@ export const offers: Offers = [
   },
   {
     id: 4,
+    cityId: 4,
     type: 'Room',
     name: 'White castle',
     price: 180,
@@ -217,7 +221,7 @@ export const offers: Offers = [
       id: 6,
       reviewerName: 'Sarah',
       review: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
-      date: new Date('2024-01-05'),
+      date: '2024-01-05',
       rating: 5,
       imageSource: 'img/avatar-angelina.jpg'
     }],
