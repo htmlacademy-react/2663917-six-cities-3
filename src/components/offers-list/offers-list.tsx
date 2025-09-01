@@ -11,7 +11,7 @@ function OffersList({offers, onActiveChange}: OffersListProps): JSX.Element {
   const [, setActiveOfferId] = useState<number | undefined>(undefined);
 
   return (
-    <div className="cities__places-list places__list tabs__content">
+    <div className="cities__places-list places__list tabs__content" style={{justifyContent: 'center'}}>
       {offers.map((offer) => (
         <PlaceCard
           offer={offer}
