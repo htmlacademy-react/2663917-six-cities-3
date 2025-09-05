@@ -181,12 +181,12 @@ export const offers: Offers = [
   },
   {
     id: 4,
-    cityId: 4,
+    cityId: 5,
     type: 'Room',
     name: 'White castle',
     price: 180,
-    lat: 52.3809553943508,
-    lng: 4.939309666406198,
+    lat: 53.5653,
+    lng: 9.9862,
     currencyCode: 'euro',
     rating: 5,
     isBookmarked: true,
@@ -197,7 +197,7 @@ export const offers: Offers = [
       'img/apartment-small-03.jpg'
     ],
     timeBasedPricingMode: 'Night',
-    country: 'Colonge',
+    country: 'Germany',
     bedrooms: '1 Bedroom',
     occupancy: 'Max 2 adults',
     amenities: [
@@ -220,13 +220,13 @@ export const offers: Offers = [
     reviews: [{
       id: 6,
       reviewerName: 'Sarah',
-      review: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
+      review: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Hamburg. The building is green and from 18th century.',
       date: '2024-01-05',
       rating: 5,
       imageSource: 'img/avatar-angelina.jpg'
     }],
     description: [
-      'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
+      'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Hamburg. The building is green and from 18th century.',
       'An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.'
     ]
   }
