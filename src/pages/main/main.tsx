@@ -7,6 +7,9 @@ import { convertToPoints } from '../../utils/offersConverter';
 import CitiesList from '../../components/cities-list/cities-list';
 import { City } from '../../types/city';
 import { useAppSelector } from '../../hooks';
+import SortOptions from '../../components/sort-options/sort-options';
+import { SortType } from '../../Const';
+import { sortOffers } from '../../utils/sortOffers';
 
 type MainProps = {
     cities: City[];
@@ -14,6 +17,7 @@ type MainProps = {
 
 function Main({cities}: MainProps): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<number | undefined>(undefined);
+  const [sortType, setSortType] = useState<number | undefined>(SortType.Popular);
   const onActiveChange = (offerId: number | undefined) => {
     setActiveOfferId(offerId);
   };
@@ -21,7 +25,11 @@ function Main({cities}: MainProps): JSX.Element {
   const currentCityId = useAppSelector((state) => state.cityId);
   const city = cities.filter((c) => c.id === currentCityId)[0];
   const offers = allOffers.filter((offer) => offer.cityId === currentCityId);
+  const sortedOffers = sortOffers(offers, sortType);
   const points: Point[] = convertToPoints(offers);
+  const onSortTypeChange = (sortType: SortType) => {
+    setSortType(sortType);
+  };
 
   return (
     <div className="page page--gray page--main">
@@ -65,22 +73,8 @@ function Main({cities}: MainProps): JSX.Element {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{offers.length} places to stay in {city.name}</b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                  <li className="places__option" tabIndex={0}>Price: low to high</li>
-                  <li className="places__option" tabIndex={0}>Price: high to low</li>
-                  <li className="places__option" tabIndex={0}>Top rated first</li>
-                </ul>
-              </form>
-              <OffersList offers={offers} onActiveChange={onActiveChange}/>
+              <SortOptions sortType={sortType} onSortTypeChange={onSortTypeChange} />
+              <OffersList offers={sortedOffers} onActiveChange={onActiveChange} />
             </section>
             <div className="cities__right-section">
               <Map city={city} points={points} selectedPointId={activeOfferId} />
