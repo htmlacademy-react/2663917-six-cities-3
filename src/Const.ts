@@ -21,3 +21,10 @@ export const CITY: City = {
 };
 
 export const zoom = 12;
+
+export enum SortType {
+  Popular,
+  PriceLowToHigh,
+  PriceHighToLow,
+  TopRated,
+}
