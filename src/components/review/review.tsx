@@ -12,6 +12,8 @@ const formatDate = (date: Date) =>
   }).format(date);
 
 function Review({review}: ReviewProps): JSX.Element {
+  const date = new Date(review.date);
+
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -32,8 +34,8 @@ function Review({review}: ReviewProps): JSX.Element {
         <p className="reviews__text">
           {review.review}
         </p>
-        <time className="reviews__time" dateTime={review.date.toISOString().slice(0, 10)}>
-          {formatDate(review.date)}
+        <time className="reviews__time" dateTime={date.toISOString().slice(0, 10)}>
+          {formatDate(date)}
         </time>
       </div>
     </li>
