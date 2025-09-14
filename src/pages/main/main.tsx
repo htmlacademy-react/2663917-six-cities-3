@@ -27,8 +27,8 @@ function Main({cities}: MainProps): JSX.Element {
   const offers = allOffers.filter((offer) => offer.cityId === currentCityId);
   const sortedOffers = sortOffers(offers, sortType);
   const points: Point[] = convertToPoints(offers);
-  const onSortTypeChange = (sortType: SortType) => {
-    setSortType(sortType);
+  const onSortTypeChange = (newSortType: SortType) => {
+    setSortType(newSortType);
   };
 
   return (

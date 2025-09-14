@@ -13,45 +13,47 @@ const SORT_OPTIONS = [
   { id: SortType.TopRated, label: 'Top rated first' }
 ];
 
-function SortOptions({sortType, onSortTypeChange}: SortOptionsProps): JSX.Element {  
+function SortOptions({sortType, onSortTypeChange}: SortOptionsProps): JSX.Element | null {
   const [activeSortType, setActiveSortType] = useState(sortType);
-  const [isOpen, setIsOpen] = useState<boolean>(false); 
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const handleSortChange = (sortType: SortType) => {
+  const handleSortChange = (newSortType: SortType) => {
     setIsOpen(false);
-     if (sortType === activeSortType) {
+    if (newSortType === activeSortType) {
       return;
     }
-    setActiveSortType(sortType);
-    onSortTypeChange(sortType);
+    setActiveSortType(newSortType);
+    onSortTypeChange(newSortType);
   };
 
+  if (activeSortType === undefined) {
+    return null;
+  }
+
   return (
-    <>
-      {activeSortType !== undefined && (<form className="places__sorting" action="#" method="get">
-        <span className="places__sorting-caption">Sort by</span>
-        <span className="places__sorting-type" tabIndex={0} onClick={() => setIsOpen(!isOpen)} >
-          {SORT_OPTIONS[activeSortType].label}
-          <svg className="places__sorting-arrow" width="7" height="4">
-            <use xlinkHref="#icon-arrow-select"></use>
-          </svg>
-        </span>
-        <ul className={`places__options places__options--custom ${isOpen ? 'places__options--opened' : ''}`}>
-          {SORT_OPTIONS.map(({ id, label }) => 
-            (
-              <li
-                key={id}
-                className={`places__option ${activeSortType === id ? 'places__option--active' : ''}`}
-                tabIndex={0}
-                onClick={() => handleSortChange(id)}
-              >
-                {label}
-              </li>
-            )
-          )}
-        </ul>
-      </form>)}
-    </>
+    <form className="places__sorting" action="#" method="get">
+      <span className="places__sorting-caption">Sort by</span>
+      <span className="places__sorting-type" tabIndex={0} onClick={() => setIsOpen(!isOpen)} >
+        {SORT_OPTIONS[activeSortType].label}
+        <svg className="places__sorting-arrow" width="7" height="4">
+          <use xlinkHref="#icon-arrow-select"></use>
+        </svg>
+      </span>
+      <ul className={`places__options places__options--custom ${isOpen ? 'places__options--opened' : ''}`}>
+        {SORT_OPTIONS.map(({ id, label }) =>
+          (
+            <li
+              key={id}
+              className={`places__option ${activeSortType === id ? 'places__option--active' : ''}`}
+              tabIndex={0}
+              onClick={() => handleSortChange(id)}
+            >
+              {label}
+            </li>
+          )
+        )}
+      </ul>
+    </form>
   );
 }
 
