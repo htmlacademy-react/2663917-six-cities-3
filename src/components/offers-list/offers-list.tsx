@@ -4,11 +4,11 @@ import PlaceCard from '../place-card/place-card';
 
 type OffersListProps = {
     offers: Offers;
-    onActiveChange: (activeOfferId: number | undefined) => void;
+    onActiveChange: (activeOfferId: string | undefined) => void;
 }
 
 function OffersList({offers, onActiveChange}: OffersListProps): JSX.Element {
-  const [, setActiveOfferId] = useState<number | undefined>(undefined);
+  const [, setActiveOfferId] = useState<string | undefined>(undefined);
 
   return (
     <div className="cities__places-list places__list tabs__content" style={{justifyContent: 'center'}}>
@@ -16,7 +16,7 @@ function OffersList({offers, onActiveChange}: OffersListProps): JSX.Element {
         <PlaceCard
           offer={offer}
           key={offer.id}
-          onSetActive={(offerId: number) => {
+          onSetActive={(offerId: string) => {
             setActiveOfferId(offerId);
             onActiveChange(offerId);
           }}

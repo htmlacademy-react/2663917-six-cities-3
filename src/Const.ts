@@ -14,17 +14,23 @@ export enum AuthorizationStatus {
 }
 
 export const CITY: City = {
-  id: 4,
   name: 'Amsterdam',
-  lat: 52.3676,
-  lng: 4.9041
+  location: {
+    latitude: 52.37454,
+    longitude: 4.897976,
+    zoom: 13
+  }
 };
-
-export const zoom = 12;
 
 export enum SortType {
   Popular,
   PriceLowToHigh,
   PriceHighToLow,
   TopRated,
+}
+
+export enum APIRoute {
+  Offers = '/offers',
+  Comments = '/comments',
+  Favorites = '/favorite'
 }

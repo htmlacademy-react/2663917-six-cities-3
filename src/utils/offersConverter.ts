@@ -1,7 +1,7 @@
-import { Offers } from '../types/offer';
+import { Offer } from '../types/offer';
 
-export const convertToPoints = (offers: Offers) => offers.map((offer) => ({
+export const convertToPoints = (offers: Offer[]) => offers.map((offer) => ({
   id: offer.id,
-  lat: offer.lat,
-  lng: offer.lng
+  latitude: offer.location.latitude,
+  longitude: offer.location.longitude
 }));

@@ -1,6 +1,6 @@
+import { Location } from './location';
+
 export type City = {
-  id: number;
   name: string;
-  lat: number;
-  lng: number;
+  location: Location;
 };

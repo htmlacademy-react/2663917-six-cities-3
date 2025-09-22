@@ -16,15 +16,15 @@ type MainProps = {
 }
 
 function Main({cities}: MainProps): JSX.Element {
-  const [activeOfferId, setActiveOfferId] = useState<number | undefined>(undefined);
+  const [activeOfferId, setActiveOfferId] = useState<string | undefined>(undefined);
   const [sortType, setSortType] = useState<number | undefined>(SortType.Popular);
-  const onActiveChange = (offerId: number | undefined) => {
+  const onActiveChange = (offerId: string | undefined) => {
     setActiveOfferId(offerId);
   };
   const allOffers = useAppSelector((state) => state.offers);
-  const currentCityId = useAppSelector((state) => state.cityId);
-  const city = cities.filter((c) => c.id === currentCityId)[0];
-  const offers = allOffers.filter((offer) => offer.cityId === currentCityId);
+  const currentCityName = useAppSelector((state) => state.cityName);
+  const city = cities.filter((c) => c.name === currentCityName)[0];
+  const offers = allOffers.filter((offer) => offer.city.name === currentCityName);
   const sortedOffers = sortOffers(offers, sortType);
   const points: Point[] = convertToPoints(offers);
   const onSortTypeChange = (newSortType: SortType) => {
