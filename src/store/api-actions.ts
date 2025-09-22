@@ -1,7 +1,7 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
-import {loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby} from './action';
+import {loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby, setDataLoadingStatus} from './action';
 import {Offer} from '../types/offer.js';
 import {APIRoute} from '../Const.js';
 import {OfferDetailed} from '../types/offer-detailed';
@@ -14,8 +14,10 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
 }>(
   'fetchOffers',
   async (_arg, {dispatch, extra: api}) => {
+    dispatch(setDataLoadingStatus(true));
     const {data} = await api.get<Offer[]>(APIRoute.Offers);
     dispatch(loadOffers(data));
+    dispatch(setDataLoadingStatus(true));
   },
 );
 

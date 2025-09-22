@@ -8,6 +8,7 @@ import Offer from '../../pages/offer/offer';
 import PrivateRoute from '../private-route/private-route';
 import {HelmetProvider} from 'react-helmet-async';
 import { City } from '../../types/city';
+import LoadingScreen from '../../loading-screen';
 import { useAppSelector } from '../../hooks';
 
 type AppProps = {
@@ -15,6 +16,12 @@ type AppProps = {
 }
 
 function App({cities}: AppProps): JSX.Element {
+  const isDataLoading = useAppSelector((state) => state.isDataLoading);
+  if (isDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
   return (
     <HelmetProvider>
       <BrowserRouter>
