@@ -8,7 +8,7 @@ import { City } from '../../types/city';
 type MapProps = {
   city: City;
   points: Point[];
-  selectedPointId: number | undefined;
+  selectedPointId: string | undefined;
 };
 
 const defaultCustomIcon = new Icon({
@@ -33,8 +33,8 @@ function Map(props: MapProps): JSX.Element {
       const markerLayer = layerGroup().addTo(map);
       points.forEach((point) => {
         const marker = new Marker({
-          lat: point.lat,
-          lng: point.lng
+          lat: point.latitude,
+          lng: point.longitude
         });
 
         marker

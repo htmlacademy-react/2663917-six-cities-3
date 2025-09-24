@@ -3,27 +3,39 @@ import ReviewForm from '../../components/review-form/review-form';
 import { Link } from 'react-router-dom';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import { useParams } from 'react-router-dom';
-import { Offer as OfferType } from '../../types/offer';
-import { Review } from '../../types/review';
-import { CITY } from '../../Const';
 import { convertToPoints } from '../../utils/offersConverter';
 import Map from '../../components/map/map';
 import { Point } from '../../types/point';
 import OffersList from '../../components/offers-list/offers-list';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction } from '../../store/api-actions';
 
-type OfferProps = {
-    offers: OfferType[];
-}
-
-function Offer({offers}: OfferProps): JSX.Element {
+function Offer(): JSX.Element | null {
   const { id } = useParams();
-  const reviews: Review[] | undefined = offers.find((offer) => offer.id === Number(id))?.reviews;
-  const neatestOffers: OfferType[] = offers.filter((offer) => offer.id !== Number(id));
-  const points: Point[] = convertToPoints(neatestOffers);
-  const [activeOfferId, setActiveOfferId] = useState<number | undefined>(undefined);
-  const onActiveChange = (offerId: number | undefined) => {
-    setActiveOfferId(offerId);
+  const dispatch = useAppDispatch();
+  const allOffersDetailed = useAppSelector((state) => state.offersDetailed);
+  const offerDetailed = allOffersDetailed.find((offer) => offer.id === id);
+  useEffect(() => {
+    if (id && !offerDetailed) {
+      dispatch(fetchOfferAction(id));
+      dispatch(fetchOffersNearbyAction(id));
+      dispatch(fetchCommentsAction(id));
+    }
+  }, [dispatch, id, offerDetailed]);
+  const offersNearby = useAppSelector((state) =>
+    state.offersNearby[id ?? ''] ?? []
+  );
+  const comments = useAppSelector((state) =>
+    state.comments[id ?? ''] ?? []
+  );
+  const points: Point[] = convertToPoints(offersNearby);
+  const [activeOfferId, setActiveOfferId] = useState<string | undefined>(undefined);
+  if (id === undefined || !offerDetailed) {
+    return null;
+  }
+  const onActiveChange = (newActiveOfferId: string | undefined) => {
+    setActiveOfferId(newActiveOfferId);
   };
 
   return (
@@ -180,20 +192,20 @@ function Offer({offers}: OfferProps): JSX.Element {
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                {reviews && (<h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>)}
-                {reviews && (<ReviewsList reviews={reviews} />)}
+                {comments.length > 0 && (<h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>)}
+                {comments.length > 0 && (<ReviewsList comments={comments} />)}
                 <ReviewForm />
               </section>
             </div>
           </div>
           <div className="container" style={{ height: '575px', padding: '0', marginBottom: '50px' }}>
-            <Map city={CITY} points={points} selectedPointId={activeOfferId} />
+            <Map city={offerDetailed.city} points={points} selectedPointId={activeOfferId} />
           </div>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersList offers={neatestOffers} onActiveChange={onActiveChange}/>
+            <OffersList offers={offersNearby} onActiveChange={onActiveChange}/>
           </section>
         </div>
       </main>

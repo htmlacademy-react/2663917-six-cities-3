@@ -7,19 +7,21 @@ import NotFound from '../../pages/not-found/not-found';
 import Offer from '../../pages/offer/offer';
 import PrivateRoute from '../private-route/private-route';
 import {HelmetProvider} from 'react-helmet-async';
-import { Offers } from '../../types/offer';
 import { City } from '../../types/city';
-import { useAppDispatch } from '../../hooks';
-import { setOffers } from '../../store/action';
+import LoadingScreen from '../../loading-screen';
+import { useAppSelector } from '../../hooks';
 
 type AppProps = {
-  offers: Offers;
   cities: City[];
 }
 
-function App({offers, cities}: AppProps): JSX.Element {
-  useAppDispatch()(setOffers(offers));
-
+function App({cities}: AppProps): JSX.Element {
+  const isDataLoading = useAppSelector((state) => state.isDataLoading);
+  if (isDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -38,13 +40,13 @@ function App({offers, cities}: AppProps): JSX.Element {
               <PrivateRoute
                 authorizationStatus={AuthorizationStatus.Auth}
               >
-                <Favorites offers={offers.filter((offer) => offer.isBookmarked)} />
+                <Favorites />
               </PrivateRoute>
             }
           />
           <Route
             path={AppRoute.Offer}
-            element={<Offer offers={offers} />}
+            element={<Offer />}
           />
           <Route
             path="*"

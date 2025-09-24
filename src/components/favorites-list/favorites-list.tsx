@@ -9,7 +9,7 @@ type FavoritesListProps = {
 function FavoritesList({offers}: FavoritesListProps): JSX.Element {
   const groupByCountry = (offersToGroup: Offers): Record<string, Offers> =>
     offersToGroup.reduce((acc, offer) => {
-      const country = offer.country;
+      const country = offer.city.name;
       if (!acc[country]) {
         acc[country] = [];
       }

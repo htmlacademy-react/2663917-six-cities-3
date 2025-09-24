@@ -1,8 +1,8 @@
-import { Review as ReviewType } from '../../types/review';
+import { Comment } from '../../types/comment';
 import RatingStarsWidthResolver from '../../utils/ratingStarsWidthResolver';
 
 type ReviewProps = {
-    review: ReviewType;
+    comment: Comment;
 }
 
 const formatDate = (date: Date) =>
@@ -11,28 +11,28 @@ const formatDate = (date: Date) =>
     month: 'long',
   }).format(date);
 
-function Review({review}: ReviewProps): JSX.Element {
-  const date = new Date(review.date);
+function Review({comment}: ReviewProps): JSX.Element {
+  const date = new Date(comment.date);
 
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
-          <img className="reviews__avatar user__avatar" src={review.imageSource} width="54" height="54" alt="Reviews avatar" />
+          <img className="reviews__avatar user__avatar" src={comment.user.avatarUrl} width="54" height="54" alt="Reviews avatar" />
         </div>
         <span className="reviews__user-name">
-          {review.reviewerName}
+          {comment.user.name}
         </span>
       </div>
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{ width: RatingStarsWidthResolver.resolve(review.rating) }}></span>
+            <span style={{ width: RatingStarsWidthResolver.resolve(comment.rating) }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <p className="reviews__text">
-          {review.review}
+          {comment.comment}
         </p>
         <time className="reviews__time" dateTime={date.toISOString().slice(0, 10)}>
           {formatDate(date)}

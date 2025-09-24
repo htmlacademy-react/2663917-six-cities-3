@@ -7,16 +7,16 @@ type CitiesListProps = {
 }
 
 function CitiesList({cities}: CitiesListProps): JSX.Element {
-  const currentCityId = useAppSelector((state) =>
-    state.cityId
+  const currentCityName = useAppSelector((state) =>
+    state.cityName
   );
   const dispatch = useAppDispatch();
 
   return (
     <ul className="locations__list tabs__list">
       {cities.map((city) => (
-        <li className={`locations__item-link tabs__item${city.id === currentCityId ? ' tabs__item--active' : ''}`} key={city.id}>
-          <a className="locations__item-link tabs__item" href="#" onClick={() => dispatch(changeCity(city.id))}>
+        <li className={`locations__item-link tabs__item${city.name === currentCityName ? ' tabs__item--active' : ''}`} key={city.name}>
+          <a className="locations__item-link tabs__item" href="#" onClick={() => dispatch(changeCity(city.name))}>
             <span>{city.name}</span>
           </a>
         </li>

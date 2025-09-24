@@ -1,13 +1,19 @@
 import { Helmet } from 'react-helmet-async';
-import { Offers } from '../../types/offer';
 import FavoritesList from '../../components/favorites-list/favorites-list';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useEffect } from 'react';
+import { fetchFavoritesAction } from '../../store/api-actions';
 
-type FavoritesProps = {
-    offers: Offers;
-}
+function Favorites(): JSX.Element {
+  const favoriteOffers = useAppSelector((state) => state.favorites);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (favoriteOffers.length === 0) {
+      dispatch(fetchFavoritesAction());
+    }
+  }, [dispatch, favoriteOffers.length]);
 
-function Favorites({offers}: FavoritesProps): JSX.Element {
   return (
     <div className="page">
       <Helmet>
@@ -46,7 +52,7 @@ function Favorites({offers}: FavoritesProps): JSX.Element {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesList offers={offers} />
+            <FavoritesList offers={favoriteOffers} />
           </section>
         </div>
       </main>
