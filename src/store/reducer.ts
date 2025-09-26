@@ -3,6 +3,7 @@ import { changeCity, loadComments, loadFavorites, loadOffer, loadOffers, loadOff
 import { Offer } from '../types/offer';
 import { OfferDetailed } from '../types/offer-detailed';
 import { Comment } from '../types/comment';
+import { AuthorizationStatus } from '../Const';
 
 const initialState = {
   cityName: 'Paris',
@@ -12,6 +13,7 @@ const initialState = {
   comments: {} as Record<string, Comment[]>,
   favorites: [] as Offer[],
   isDataLoading: false
+  authorizationStatus: AuthorizationStatus.Unknown as AuthorizationStatus,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
