@@ -1,9 +1,10 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { changeCity, loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby, setDataLoadingStatus } from './action';
+import { changeCity, loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby, loadUserData, requireAuthorization, setDataLoadingStatus, setError } from './action';
 import { Offer } from '../types/offer';
 import { OfferDetailed } from '../types/offer-detailed';
 import { Comment } from '../types/comment';
 import { AuthorizationStatus } from '../Const';
+import { UserData } from '../types/user-data';
 
 const initialState = {
   cityName: 'Paris',
@@ -12,8 +13,15 @@ const initialState = {
   offersNearby: {} as Record<string, Offer[]>,
   comments: {} as Record<string, Comment[]>,
   favorites: [] as Offer[],
-  isDataLoading: false
+  isDataLoading: false,
+  error: null as string | null,
   authorizationStatus: AuthorizationStatus.Unknown as AuthorizationStatus,
+  userData: {
+    email: '',
+    name: '',
+    avatarUrl: '',
+    isPro: false
+  }
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -51,5 +59,11 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
+    })
+    .addCase(loadUserData, (state, action: PayloadAction<{userData: UserData}>) => {
+      state.userData = action.payload.userData;
     });
 });
