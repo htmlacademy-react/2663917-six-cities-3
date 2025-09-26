@@ -19,7 +19,7 @@ function FavoritesList({offers}: FavoritesListProps): JSX.Element {
 
   return (
     <ul className="favorites__list">
-      {Object.entries(groupByCountry(offers)).map(([country, offersGrupedByCountry]) => (
+      {Object.entries(groupByCountry(offers)).map(([country, offersGroupedByCountry]) => (
         <li className="favorites__locations-items" key={country}>
           <div className="favorites__locations locations locations--current">
             <div className="locations__item">
@@ -29,7 +29,7 @@ function FavoritesList({offers}: FavoritesListProps): JSX.Element {
             </div>
           </div>
           <div className="favorites__places">
-            {offersGrupedByCountry.map((offer) => <FavoriteOfferCard offer={offer} key={offer.id} />)}
+            {offersGroupedByCountry.map((offer) => <FavoriteOfferCard offer={offer} key={offer.id} />)}
           </div>
         </li>
       ))}
