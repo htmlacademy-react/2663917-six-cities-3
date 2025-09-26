@@ -1,5 +1,7 @@
 import { City } from './types/city';
 
+export const TIMEOUT_SHOW_ERROR = 2000;
+
 export enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -32,5 +34,7 @@ export enum SortType {
 export enum APIRoute {
   Offers = '/offers',
   Comments = '/comments',
-  Favorites = '/favorite'
+  Favorites = '/favorite',
+  Login = '/login',
+  Logout = '/logout'
 }

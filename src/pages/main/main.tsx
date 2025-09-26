@@ -6,10 +6,11 @@ import { useState } from 'react';
 import { convertToPoints } from '../../utils/offersConverter';
 import CitiesList from '../../components/cities-list/cities-list';
 import { City } from '../../types/city';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import SortOptions from '../../components/sort-options/sort-options';
-import { SortType } from '../../Const';
+import { AppRoute, AuthorizationStatus, SortType } from '../../Const';
 import { sortOffers } from '../../utils/sortOffers';
+import { logoutAction } from '../../store/api-actions';
 
 type MainProps = {
     cities: City[];
@@ -30,6 +31,14 @@ function Main({cities}: MainProps): JSX.Element {
   const onSortTypeChange = (newSortType: SortType) => {
     setSortType(newSortType);
   };
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const userEmail = useAppSelector((state) => state.userData.email);
+  const userAvatarUrl = useAppSelector((state) => state.userData.avatarUrl);
+  const dispatch = useAppDispatch();
+  const handleLogoutClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    dispatch(logoutAction());
+  };
 
   return (
     <div className="page page--gray page--main">
@@ -42,21 +51,31 @@ function Main({cities}: MainProps): JSX.Element {
               </Link>
             </div>
             <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to="#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </Link>
-                </li>
-                <li className="header__nav-item">
-                  <Link className="header__nav-link" to="#">
-                    <span className="header__signout">Sign out</span>
-                  </Link>
-                </li>
-              </ul>
+              {authorizationStatus === AuthorizationStatus.Auth && (
+                <ul className="header__nav-list">
+                  <li className="header__nav-item user">
+                    <Link className="header__nav-link header__nav-link--profile" to="#">
+                      <div className="header__avatar-wrapper user__avatar-wrapper">
+                        <img src={userAvatarUrl} alt="User avatar" />
+                      </div>
+                      <span className="header__user-name user__name">{userEmail}</span>
+                      <span className="header__favorite-count">3</span>
+                    </Link>
+                  </li>
+                  <li className="header__nav-item">
+                    <Link className="header__nav-link" to="#" onClick={handleLogoutClick}>
+                      <span className="header__signout">Sign out</span>
+                    </Link>
+                  </li>
+                </ul>)}
+              {authorizationStatus !== AuthorizationStatus.Auth && (
+                <ul className="header__nav-list">
+                  <li className="header__nav-item">
+                    <Link className="header__nav-link" to={AppRoute.Login}>
+                      <span className="header__signout">Sign in</span>
+                    </Link>
+                  </li>
+                </ul>)}
             </nav>
           </div>
         </div>
