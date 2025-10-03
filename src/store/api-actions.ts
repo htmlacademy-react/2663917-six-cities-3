@@ -12,6 +12,12 @@ import {UserData} from '../types/user-data';
 import {store} from './index';
 import {StatusCodes} from 'http-status-codes';
 
+const resetUserData = (dispatch: AppDispatch) => {
+  dropToken();
+  dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
+  dispatch(loadUserData({userData: null}));
+}
+
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
   state: State;
@@ -86,8 +92,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
       dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === StatusCodes.UNAUTHORIZED) {
-        dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
-        dispatch(loadUserData({userData: null}));
+        resetUserData(dispatch);
       }
     }
   },
@@ -114,9 +119,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
 }>(
   'logout',
   async (_arg, {dispatch, extra: api}) => {
-    dropToken();
-    dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
-    dispatch(loadUserData({userData: null}));
+    resetUserData(dispatch);
     await api.delete(APIRoute.Logout);
   },
 );
