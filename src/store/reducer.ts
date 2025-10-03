@@ -1,5 +1,5 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { changeCity, loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby, loadUserData, setAuthorizationStatus, setDataLoadingStatus, setError } from './action';
+import { changeCity, loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby, loadUserData, setAuthorizationStatus, setDataLoadingStatus, setError, setResourceNotFound } from './action';
 import { Offer } from '../types/offer';
 import { OfferDetailed } from '../types/offer-detailed';
 import { Comment } from '../types/comment';
@@ -16,7 +16,8 @@ const initialState = {
   isDataLoading: false,
   error: null as string | null,
   authorizationStatus: AuthorizationStatus.NoAuth,
-  userData: null as UserData | null
+  userData: null as UserData | null,
+  isResourceNotFound: false
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -60,5 +61,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadUserData, (state, action: PayloadAction<{userData: UserData | null}>) => {
       state.userData = action.payload.userData;
+    })
+    .addCase(setResourceNotFound, (state, action: PayloadAction<boolean>) => {
+      state.isResourceNotFound = action.payload;
     });
 });

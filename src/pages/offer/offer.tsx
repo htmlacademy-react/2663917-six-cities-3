@@ -1,21 +1,31 @@
-import { Helmet } from 'react-helmet-async';
+import {Helmet} from 'react-helmet-async';
 import ReviewForm from '../../components/review-form/review-form';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import ReviewsList from '../../components/reviews-list/reviews-list';
-import { useParams } from 'react-router-dom';
-import { convertToPoints } from '../../utils/offersConverter';
+import {useParams} from 'react-router-dom';
+import {convertToPoints} from '../../utils/offersConverter';
 import Map from '../../components/map/map';
-import { Point } from '../../types/point';
+import {Point} from '../../types/point';
 import OffersList from '../../components/offers-list/offers-list';
-import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction } from '../../store/api-actions';
+import {useEffect, useState} from 'react';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction} from '../../store/api-actions';
+import {AppRoute} from '../../Const';
+import {setResourceNotFound} from '../../store/action';
 
 function Offer(): JSX.Element | null {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const allOffersDetailed = useAppSelector((state) => state.offersDetailed);
   const offerDetailed = allOffersDetailed.find((offer) => offer.id === id);
+  const isResourceNotFound = useAppSelector((state) => state.isResourceNotFound);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isResourceNotFound) {
+      navigate(AppRoute.NotFound);
+      dispatch(setResourceNotFound(false));
+    }
+  }, [isResourceNotFound, navigate, dispatch]);
   useEffect(() => {
     if (id) {
       dispatch(fetchOfferAction(id));

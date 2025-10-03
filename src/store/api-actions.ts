@@ -1,7 +1,7 @@
 import axios, {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
-import {loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby, loadUserData, setAuthorizationStatus, setDataLoadingStatus, setError} from './action';
+import {loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby, loadUserData, setAuthorizationStatus, setDataLoadingStatus, setError, setResourceNotFound} from './action';
 import {Offer} from '../types/offer.js';
 import {APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../Const';
 import {OfferDetailed} from '../types/offer-detailed';
@@ -39,8 +39,15 @@ export const fetchOfferAction = createAsyncThunk<void, string, {
 }>(
   'fetchOffer',
   async (offerId, {dispatch, extra: api}) => {
-    const {data} = await api.get<OfferDetailed>(`${APIRoute.Offers}/${offerId}`);
-    dispatch(loadOffer(data));
+    try {
+      const {data} = await api.get<OfferDetailed>(`${APIRoute.Offers}/${offerId}`);
+      dispatch(loadOffer(data));
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === StatusCodes.NOT_FOUND) {
+        dispatch(setResourceNotFound(true));
+      }
+      throw error;
+    }
   },
 );
 
