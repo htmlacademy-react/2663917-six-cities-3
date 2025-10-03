@@ -13,9 +13,7 @@ function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
     review: ''
   });
   const reviewFormFieldChangeHandle = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    console.log('reviewFormFieldChangeHandle')
     const {name, value} = event.target;
-    console.log('name, value', name, value);
     setReviewFormData({...reviewFormData, [name]: value});
   };
   const dispatch = useAppDispatch();

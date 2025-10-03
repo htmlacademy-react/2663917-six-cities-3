@@ -10,7 +10,7 @@ import OffersList from '../../components/offers-list/offers-list';
 import {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction} from '../../store/api-actions';
-import {AppRoute} from '../../Const';
+import {AppRoute, AuthorizationStatus} from '../../Const';
 import {setResourceNotFound} from '../../store/action';
 
 function Offer(): JSX.Element | null {
@@ -19,6 +19,7 @@ function Offer(): JSX.Element | null {
   const allOffersDetailed = useAppSelector((state) => state.offersDetailed);
   const offerDetailed = allOffersDetailed.find((offer) => offer.id === id);
   const isResourceNotFound = useAppSelector((state) => state.isResourceNotFound);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const navigate = useNavigate();
   useEffect(() => {
     if (isResourceNotFound) {
@@ -204,7 +205,7 @@ function Offer(): JSX.Element | null {
               <section className="offer__reviews reviews">
                 {comments.length > 0 && (<h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>)}
                 {comments.length > 0 && (<ReviewsList comments={comments} />)}
-                <ReviewForm offerId={id} />
+                {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm offerId={id} />}
               </section>
             </div>
           </div>
