@@ -1,6 +1,7 @@
 import {Link} from 'react-router-dom';
 import {logoutAction} from '../../store/api-actions';
 import {useAppDispatch} from '../../hooks';
+import './authorized-header-user-profile.css';
 
 type AuthorizedHeaderUserProfileProps = {
   userAvatarUrl: string;
