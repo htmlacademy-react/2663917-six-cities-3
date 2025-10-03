@@ -204,7 +204,7 @@ function Offer(): JSX.Element | null {
               <section className="offer__reviews reviews">
                 {comments.length > 0 && (<h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>)}
                 {comments.length > 0 && (<ReviewsList comments={comments} />)}
-                <ReviewForm />
+                <ReviewForm offerId={id} />
               </section>
             </div>
           </div>

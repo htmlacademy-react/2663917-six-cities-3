@@ -1,5 +1,5 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { changeCity, loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby, loadUserData, setAuthorizationStatus, setDataLoadingStatus, setError, setResourceNotFound } from './action';
+import { addComment, changeCity, loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby, loadUserData, setAuthorizationStatus, setDataLoadingStatus, setError, setResourceNotFound } from './action';
 import { Offer } from '../types/offer';
 import { OfferDetailed } from '../types/offer-detailed';
 import { Comment } from '../types/comment';
@@ -64,5 +64,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setResourceNotFound, (state, action: PayloadAction<boolean>) => {
       state.isResourceNotFound = action.payload;
+    })
+    .addCase(addComment, (state, action: PayloadAction<{offerId: string; comment: Comment}>) => {
+      state.comments[action.payload.offerId].push(action.payload.comment);
     });
 });

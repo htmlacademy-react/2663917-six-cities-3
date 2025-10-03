@@ -1,7 +1,7 @@
 import axios, {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
-import {loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby, loadUserData, setAuthorizationStatus, setDataLoadingStatus, setError, setResourceNotFound} from './action';
+import {addComment, loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby, loadUserData, setAuthorizationStatus, setDataLoadingStatus, setError, setResourceNotFound} from './action';
 import {Offer} from '../types/offer.js';
 import {APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../Const';
 import {OfferDetailed} from '../types/offer-detailed';
@@ -11,6 +11,7 @@ import {AuthData} from '../types/auth-data';
 import {UserData} from '../types/user-data';
 import {store} from './index';
 import {StatusCodes} from 'http-status-codes';
+import { CommentDto } from '../types/comment-dto.js';
 
 const resetUserData = (dispatch: AppDispatch) => {
   dropToken();
@@ -138,5 +139,17 @@ export const clearErrorAction = createAsyncThunk(
       () => store.dispatch(setError(null)),
       TIMEOUT_SHOW_ERROR,
     );
+  },
+);
+
+export const saveCommentAction = createAsyncThunk<void, CommentDto & { offerId: string }, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'saveComment',
+  async ({offerId, comment, rating}, {dispatch, extra: api}) => {
+    const {data} = await api.post<Comment>(`${APIRoute.Comments}/${offerId}`, {comment, rating});
+    dispatch(addComment({offerId: offerId, comment: data}));
   },
 );

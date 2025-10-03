@@ -1,9 +1,9 @@
 import {createAction} from '@reduxjs/toolkit';
-import { Offer } from '../types/offer';
-import { OfferDetailed } from '../types/offer-detailed';
-import { Comment } from '../types/comment';
-import { AuthorizationStatus } from '../Const';
-import { UserData } from '../types/user-data';
+import {Offer} from '../types/offer';
+import {OfferDetailed} from '../types/offer-detailed';
+import {Comment} from '../types/comment';
+import {AuthorizationStatus} from '../Const';
+import {UserData} from '../types/user-data';
 
 export const changeCity = createAction<string>('changeCity');
 export const loadOffers = createAction<Offer[]>('loadOffers');
@@ -16,3 +16,4 @@ export const setAuthorizationStatus = createAction<AuthorizationStatus>('setAuth
 export const setError = createAction<string | null>('setError');
 export const loadUserData = createAction<{userData: UserData | null}>('loadUserData');
 export const setResourceNotFound = createAction<boolean>('setResourceNotFound');
+export const addComment = createAction<{ offerId: string; comment: Comment }>('addComment');
