@@ -96,8 +96,9 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   'checkAuth',
   async (_arg, {dispatch, extra: api}) => {
     try {
-      await api.get(APIRoute.Login);
+      const {data} = await api.get<UserData>(APIRoute.Login);
       dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
+      dispatch(loadUserData({userData: data}));
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === StatusCodes.UNAUTHORIZED) {
         resetUserData(dispatch);
