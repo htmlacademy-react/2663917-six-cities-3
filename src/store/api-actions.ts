@@ -87,13 +87,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === StatusCodes.UNAUTHORIZED) {
         dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
-        dispatch(loadUserData({userData: {
-          email: '',
-          token: '',
-          name: '',
-          avatarUrl: '',
-          isPro: false
-        }}));
+        dispatch(loadUserData({userData: null}));
       }
     }
   },
@@ -123,13 +117,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
-    dispatch(loadUserData({userData: {
-      email: '',
-      token: '',
-      name: '',
-      avatarUrl: '',
-      isPro: false
-    }}));
+    dispatch(loadUserData({userData: null}));
   },
 );
 

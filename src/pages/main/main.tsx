@@ -32,8 +32,7 @@ function Main({cities}: MainProps): JSX.Element {
     setSortType(newSortType);
   };
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const userEmail = useAppSelector((state) => state.userData.email);
-  const userAvatarUrl = useAppSelector((state) => state.userData.avatarUrl);
+  const userData = useAppSelector((state) => state.userData);
   const dispatch = useAppDispatch();
   const handleLogoutClick = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -51,14 +50,14 @@ function Main({cities}: MainProps): JSX.Element {
               </Link>
             </div>
             <nav className="header__nav">
-              {authorizationStatus === AuthorizationStatus.Auth && (
+              {authorizationStatus === AuthorizationStatus.Auth && userData && (
                 <ul className="header__nav-list">
                   <li className="header__nav-item user">
                     <Link className="header__nav-link header__nav-link--profile" to="#">
                       <div className="header__avatar-wrapper user__avatar-wrapper">
-                        <img src={userAvatarUrl} alt="User avatar" />
+                        <img src={userData.avatarUrl} alt="User avatar" />
                       </div>
-                      <span className="header__user-name user__name">{userEmail}</span>
+                      <span className="header__user-name user__name">{userData.email}</span>
                       <span className="header__favorite-count">3</span>
                     </Link>
                   </li>

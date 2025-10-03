@@ -14,4 +14,4 @@ export const loadFavorites = createAction<Offer[]>('loadFavorites');
 export const setDataLoadingStatus = createAction<boolean>('setDataLoadingStatus');
 export const setAuthorizationStatus = createAction<AuthorizationStatus>('setAuthorizationStatus');
 export const setError = createAction<string | null>('setError');
-export const loadUserData = createAction<{userData: UserData}>('loadUserData');
+export const loadUserData = createAction<{userData: UserData | null}>('loadUserData');

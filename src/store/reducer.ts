@@ -16,12 +16,7 @@ const initialState = {
   isDataLoading: false,
   error: null as string | null,
   authorizationStatus: AuthorizationStatus.Unknown as AuthorizationStatus,
-  userData: {
-    email: '',
-    name: '',
-    avatarUrl: '',
-    isPro: false
-  }
+  userData: null as UserData | null
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -63,7 +58,7 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setError, (state, action) => {
       state.error = action.payload;
     })
-    .addCase(loadUserData, (state, action: PayloadAction<{userData: UserData}>) => {
+    .addCase(loadUserData, (state, action: PayloadAction<{userData: UserData | null}>) => {
       state.userData = action.payload.userData;
     });
 });
