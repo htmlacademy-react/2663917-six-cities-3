@@ -1,4 +1,4 @@
-import {AxiosInstance} from 'axios';
+import axios, {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
 import {loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby, loadUserData, setAuthorizationStatus, setDataLoadingStatus, setError} from './action';
@@ -10,6 +10,7 @@ import {dropToken, saveToken} from '../services/token';
 import {AuthData} from '../types/auth-data';
 import {UserData} from '../types/user-data';
 import {store} from './index';
+import {StatusCodes} from 'http-status-codes';
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -83,15 +84,17 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
     try {
       await api.get(APIRoute.Login);
       dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
-    } catch {
-      dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
-      dispatch(loadUserData({userData: {
-        email: '',
-        token: '',
-        name: '',
-        avatarUrl: '',
-        isPro: false
-      }}));
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === StatusCodes.UNAUTHORIZED) {
+        dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
+        dispatch(loadUserData({userData: {
+          email: '',
+          token: '',
+          name: '',
+          avatarUrl: '',
+          isPro: false
+        }}));
+      }
     }
   },
 );
