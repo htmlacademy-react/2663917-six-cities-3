@@ -12,6 +12,6 @@ export const loadOffersNearby = createAction<{ offerId: string; offers: Offer[] 
 export const loadComments = createAction<{ offerId: string; comments: Comment[] }>('loadComments');
 export const loadFavorites = createAction<Offer[]>('loadFavorites');
 export const setDataLoadingStatus = createAction<boolean>('setDataLoadingStatus');
-export const requireAuthorization = createAction<AuthorizationStatus>('requireAuthorization');
+export const setAuthorizationStatus = createAction<AuthorizationStatus>('setAuthorizationStatus');
 export const setError = createAction<string | null>('setError');
 export const loadUserData = createAction<{userData: UserData}>('loadUserData');

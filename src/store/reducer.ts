@@ -1,5 +1,5 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { changeCity, loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby, loadUserData, requireAuthorization, setDataLoadingStatus, setError } from './action';
+import { changeCity, loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby, loadUserData, setAuthorizationStatus, setDataLoadingStatus, setError } from './action';
 import { Offer } from '../types/offer';
 import { OfferDetailed } from '../types/offer-detailed';
 import { Comment } from '../types/comment';
@@ -57,7 +57,7 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setDataLoadingStatus, (state, action) => {
       state.isDataLoading = action.payload;
     })
-    .addCase(requireAuthorization, (state, action) => {
+    .addCase(setAuthorizationStatus, (state, action) => {
       state.authorizationStatus = action.payload;
     })
     .addCase(setError, (state, action) => {
