@@ -1,16 +1,17 @@
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
-import { Point } from '../../types/point';
-import { useState } from 'react';
-import { convertToPoints } from '../../utils/offersConverter';
+import {Point} from '../../types/point';
+import {useState} from 'react';
+import {convertToPoints} from '../../utils/offersConverter';
 import CitiesList from '../../components/cities-list/cities-list';
-import { City } from '../../types/city';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import {City} from '../../types/city';
+import {useAppSelector} from '../../hooks';
 import SortOptions from '../../components/sort-options/sort-options';
-import { AppRoute, AuthorizationStatus, SortType } from '../../Const';
-import { sortOffers } from '../../utils/sortOffers';
-import { logoutAction } from '../../store/api-actions';
+import {AuthorizationStatus, SortType} from '../../Const';
+import {sortOffers} from '../../utils/sortOffers';
+import AuthorizedHeaderUserProfile from '../../components/authorized-header-user-profile/authorized-header-user-profile';
+import AnonymousHeaderUserProfile from '../../components/anonymous-header-user-profile/anonymous-header-user-profile';
 
 type MainProps = {
     cities: City[];
@@ -33,11 +34,6 @@ function Main({cities}: MainProps): JSX.Element {
   };
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const userData = useAppSelector((state) => state.userData);
-  const dispatch = useAppDispatch();
-  const handleLogoutClick = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    dispatch(logoutAction());
-  };
 
   return (
     <div className="page page--gray page--main">
@@ -50,31 +46,9 @@ function Main({cities}: MainProps): JSX.Element {
               </Link>
             </div>
             <nav className="header__nav">
-              {authorizationStatus === AuthorizationStatus.Auth && userData && (
-                <ul className="header__nav-list">
-                  <li className="header__nav-item user">
-                    <Link className="header__nav-link header__nav-link--profile" to="#">
-                      <div className="header__avatar-wrapper user__avatar-wrapper">
-                        <img src={userData.avatarUrl} alt="User avatar" />
-                      </div>
-                      <span className="header__user-name user__name">{userData.email}</span>
-                      <span className="header__favorite-count">3</span>
-                    </Link>
-                  </li>
-                  <li className="header__nav-item">
-                    <Link className="header__nav-link" to="#" onClick={handleLogoutClick}>
-                      <span className="header__signout">Sign out</span>
-                    </Link>
-                  </li>
-                </ul>)}
-              {authorizationStatus !== AuthorizationStatus.Auth && (
-                <ul className="header__nav-list">
-                  <li className="header__nav-item">
-                    <Link className="header__nav-link" to={AppRoute.Login}>
-                      <span className="header__signout">Sign in</span>
-                    </Link>
-                  </li>
-                </ul>)}
+              {authorizationStatus === AuthorizationStatus.Auth && userData &&
+                <AuthorizedHeaderUserProfile userAvatarUrl={userData.avatarUrl} userEmail={userData.email} />}
+              {authorizationStatus === AuthorizationStatus.NoAuth && <AnonymousHeaderUserProfile />}
             </nav>
           </div>
         </div>
