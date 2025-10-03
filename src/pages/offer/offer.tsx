@@ -17,12 +17,12 @@ function Offer(): JSX.Element | null {
   const allOffersDetailed = useAppSelector((state) => state.offersDetailed);
   const offerDetailed = allOffersDetailed.find((offer) => offer.id === id);
   useEffect(() => {
-    if (id && !offerDetailed) {
+    if (id) {
       dispatch(fetchOfferAction(id));
       dispatch(fetchOffersNearbyAction(id));
       dispatch(fetchCommentsAction(id));
     }
-  }, [dispatch, id, offerDetailed]);
+  }, [dispatch, id]);
   const offersNearby = useAppSelector((state) =>
     state.offersNearby[id ?? ''] ?? []
   );
