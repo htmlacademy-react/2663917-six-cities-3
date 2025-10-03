@@ -16,7 +16,7 @@ const resetUserData = (dispatch: AppDispatch) => {
   dropToken();
   dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
   dispatch(loadUserData({userData: null}));
-}
+};
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;

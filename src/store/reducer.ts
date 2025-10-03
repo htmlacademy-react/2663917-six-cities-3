@@ -15,7 +15,7 @@ const initialState = {
   favorites: [] as Offer[],
   isDataLoading: false,
   error: null as string | null,
-  authorizationStatus: AuthorizationStatus.Unknown as AuthorizationStatus,
+  authorizationStatus: AuthorizationStatus.NoAuth,
   userData: null as UserData | null
 };
 
