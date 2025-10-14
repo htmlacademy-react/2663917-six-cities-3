@@ -12,6 +12,9 @@ import {AuthorizationStatus, SortType} from '../../Const';
 import {sortOffers} from '../../utils/sortOffers';
 import AuthorizedHeaderUserProfile from '../../components/authorized-header-user-profile/authorized-header-user-profile';
 import AnonymousHeaderUserProfile from '../../components/anonymous-header-user-profile/anonymous-header-user-profile';
+import {getCityName} from '../../store/app-process/selectors';
+import {getOffers} from '../../store/offers-data/selectors';
+import {getAuthorizationStatus, getUserData} from '../../store/user-process/selectors';
 
 type MainProps = {
     cities: City[];
@@ -23,8 +26,8 @@ function Main({cities}: MainProps): JSX.Element {
   const onActiveChange = (offerId: string | undefined) => {
     setActiveOfferId(offerId);
   };
-  const allOffers = useAppSelector((state) => state.offers);
-  const currentCityName = useAppSelector((state) => state.cityName);
+  const allOffers = useAppSelector(getOffers);
+  const currentCityName = useAppSelector(getCityName);
   const city = cities.filter((c) => c.name === currentCityName)[0];
   const offers = allOffers.filter((offer) => offer.city.name === currentCityName);
   const sortedOffers = sortOffers(offers, sortType);
@@ -32,8 +35,8 @@ function Main({cities}: MainProps): JSX.Element {
   const onSortTypeChange = (newSortType: SortType) => {
     setSortType(newSortType);
   };
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const userData = useAppSelector((state) => state.userData);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userData = useAppSelector(getUserData);
 
   return (
     <div className="page page--gray page--main">

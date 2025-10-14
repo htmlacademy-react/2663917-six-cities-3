@@ -11,22 +11,23 @@ import {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction} from '../../store/api-actions';
 import {AppRoute, AuthorizationStatus} from '../../Const';
-import {setResourceNotFound} from '../../store/action';
+import {setResourceNotFound} from '../../store/offers-data/offers-data';
+import {getComments, getIsOfferNotFound, getOfferDetailed, getOffersNearby} from '../../store/offers-data/selectors';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
 
 function Offer(): JSX.Element | null {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const allOffersDetailed = useAppSelector((state) => state.offersDetailed);
-  const offerDetailed = allOffersDetailed.find((offer) => offer.id === id);
-  const isResourceNotFound = useAppSelector((state) => state.isResourceNotFound);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const offerDetailed = useAppSelector(getOfferDetailed);
+  const isOfferNotFound = useAppSelector(getIsOfferNotFound);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
   useEffect(() => {
-    if (isResourceNotFound) {
+    if (isOfferNotFound) {
       navigate(AppRoute.NotFound);
       dispatch(setResourceNotFound(false));
     }
-  }, [isResourceNotFound, navigate, dispatch]);
+  }, [isOfferNotFound, navigate, dispatch]);
   useEffect(() => {
     if (id) {
       dispatch(fetchOfferAction(id));
@@ -34,12 +35,8 @@ function Offer(): JSX.Element | null {
       dispatch(fetchCommentsAction(id));
     }
   }, [dispatch, id]);
-  const offersNearby = useAppSelector((state) =>
-    state.offersNearby[id ?? ''] ?? []
-  );
-  const comments = useAppSelector((state) =>
-    state.comments[id ?? ''] ?? []
-  );
+  const offersNearby = useAppSelector(getOffersNearby);
+  const comments = useAppSelector(getComments);
   const points: Point[] = convertToPoints(offersNearby);
   const [activeOfferId, setActiveOfferId] = useState<string | undefined>(undefined);
   if (id === undefined || !offerDetailed) {

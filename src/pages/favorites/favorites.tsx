@@ -1,12 +1,13 @@
-import { Helmet } from 'react-helmet-async';
+import {Helmet} from 'react-helmet-async';
 import FavoritesList from '../../components/favorites-list/favorites-list';
-import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { useEffect } from 'react';
-import { fetchFavoritesAction } from '../../store/api-actions';
+import {Link} from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useEffect} from 'react';
+import {fetchFavoritesAction} from '../../store/api-actions';
+import {getFavorites} from '../../store/offers-data/selectors';
 
 function Favorites(): JSX.Element {
-  const favoriteOffers = useAppSelector((state) => state.favorites);
+  const favoriteOffers = useAppSelector(getFavorites);
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (favoriteOffers.length === 0) {
