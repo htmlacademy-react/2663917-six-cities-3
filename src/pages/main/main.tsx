@@ -8,13 +8,12 @@ import CitiesList from '../../components/cities-list/cities-list';
 import {City} from '../../types/city';
 import {useAppSelector} from '../../hooks';
 import SortOptions from '../../components/sort-options/sort-options';
-import {AuthorizationStatus, SortType} from '../../Const';
+import {SortType} from '../../Const';
 import {sortOffers} from '../../utils/sortOffers';
-import AuthorizedHeaderUserProfile from '../../components/authorized-header-user-profile/authorized-header-user-profile';
-import AnonymousHeaderUserProfile from '../../components/anonymous-header-user-profile/anonymous-header-user-profile';
 import {getCityName} from '../../store/app-process/selectors';
 import {getOffers} from '../../store/offers-data/selectors';
-import {getAuthorizationStatus, getUserData} from '../../store/user-process/selectors';
+import MainEmpty from '../main-empty/main-empty';
+import HeaderUserProfile from '../../components/header-user-profile/header-user-profile';
 
 type MainProps = {
     cities: City[];
@@ -30,13 +29,14 @@ function Main({cities}: MainProps): JSX.Element {
   const currentCityName = useAppSelector(getCityName);
   const city = cities.filter((c) => c.name === currentCityName)[0];
   const offers = allOffers.filter((offer) => offer.city.name === currentCityName);
+  if (offers.length === 0) {
+    return <MainEmpty cities={cities} />;
+  }
   const sortedOffers = sortOffers(offers, sortType);
   const points: Point[] = convertToPoints(offers);
   const onSortTypeChange = (newSortType: SortType) => {
     setSortType(newSortType);
   };
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const userData = useAppSelector(getUserData);
 
   return (
     <div className="page page--gray page--main">
@@ -48,11 +48,7 @@ function Main({cities}: MainProps): JSX.Element {
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
             </div>
-            <nav className="header__nav">
-              {authorizationStatus === AuthorizationStatus.Auth && userData &&
-                <AuthorizedHeaderUserProfile userAvatarUrl={userData.avatarUrl} userEmail={userData.email} />}
-              {authorizationStatus === AuthorizationStatus.NoAuth && <AnonymousHeaderUserProfile />}
-            </nav>
+            <HeaderUserProfile />
           </div>
         </div>
       </header>
