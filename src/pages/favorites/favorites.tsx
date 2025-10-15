@@ -11,10 +11,8 @@ function Favorites(): JSX.Element {
   const favoriteOffers = useAppSelector(getFavorites);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (favoriteOffers.length === 0) {
-      dispatch(fetchFavoritesAction());
-    }
-  }, [dispatch, favoriteOffers.length]);
+    dispatch(fetchFavoritesAction());
+  }, [dispatch]);
 
   return (
     <div className="page">
