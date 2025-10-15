@@ -1,11 +1,21 @@
 import { Link } from 'react-router-dom';
 import RatingStarsWidthResolver from '../../utils/ratingStarsWidthResolver';
 import { Offer } from '../../types/offer';
+import { useAppDispatch } from '../../hooks';
+import { changeFavoriteOfferStatusAction } from '../../store/api-actions';
 type FavoriteOfferCardProps = {
     offer: Offer;
 }
 
 function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const handleFavoriteClick = () => {
+    dispatch(changeFavoriteOfferStatusAction({
+      offerId: offer.id,
+      isFavorite: offer.isFavorite ? 0 : 1
+    }));
+  };
+
   return (
     <article className="favorites__card place-card">
       {offer.isPremium && (
@@ -24,7 +34,7 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element {
             <b className="place-card__price-value">€{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+          <button className={`place-card__bookmark-button button${offer.isFavorite ? ' place-card__bookmark-button--active' : ''}`} type="button" onClick={handleFavoriteClick}>
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>

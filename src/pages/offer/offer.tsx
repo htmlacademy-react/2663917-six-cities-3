@@ -9,24 +9,26 @@ import {Point} from '../../types/point';
 import OffersList from '../../components/offers-list/offers-list';
 import {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction} from '../../store/api-actions';
+import {changeFavoriteOfferStatusAction, fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction} from '../../store/api-actions';
 import {AppRoute, AuthorizationStatus} from '../../Const';
-import {setResourceNotFound} from '../../store/action';
+import {setResourceNotFound} from '../../store/offers-data/offers-data';
+import {getComments, getIsOfferNotFound, getOfferDetailed, getOffersNearby} from '../../store/offers-data/selectors';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import HeaderUserProfile from '../../components/header-user-profile/header-user-profile';
 
 function Offer(): JSX.Element | null {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const allOffersDetailed = useAppSelector((state) => state.offersDetailed);
-  const offerDetailed = allOffersDetailed.find((offer) => offer.id === id);
-  const isResourceNotFound = useAppSelector((state) => state.isResourceNotFound);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const offerDetailed = useAppSelector(getOfferDetailed);
+  const isOfferNotFound = useAppSelector(getIsOfferNotFound);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
   useEffect(() => {
-    if (isResourceNotFound) {
+    if (isOfferNotFound) {
       navigate(AppRoute.NotFound);
       dispatch(setResourceNotFound(false));
     }
-  }, [isResourceNotFound, navigate, dispatch]);
+  }, [isOfferNotFound, navigate, dispatch]);
   useEffect(() => {
     if (id) {
       dispatch(fetchOfferAction(id));
@@ -34,12 +36,8 @@ function Offer(): JSX.Element | null {
       dispatch(fetchCommentsAction(id));
     }
   }, [dispatch, id]);
-  const offersNearby = useAppSelector((state) =>
-    state.offersNearby[id ?? ''] ?? []
-  );
-  const comments = useAppSelector((state) =>
-    state.comments[id ?? ''] ?? []
-  );
+  const offersNearby = useAppSelector(getOffersNearby);
+  const comments = useAppSelector(getComments);
   const points: Point[] = convertToPoints(offersNearby);
   const [activeOfferId, setActiveOfferId] = useState<string | undefined>(undefined);
   if (id === undefined || !offerDetailed) {
@@ -48,7 +46,12 @@ function Offer(): JSX.Element | null {
   const onActiveChange = (newActiveOfferId: string | undefined) => {
     setActiveOfferId(newActiveOfferId);
   };
-
+  const handleFavoriteClick = () => {
+    dispatch(changeFavoriteOfferStatusAction({
+      offerId: offerDetailed.id,
+      isFavorite: offerDetailed.isFavorite ? 0 : 1
+    }));
+  };
   return (
     <div className="page">
       <Helmet>
@@ -62,23 +65,7 @@ function Offer(): JSX.Element | null {
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
             </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to="#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </Link>
-                </li>
-                <li className="header__nav-item">
-                  <Link className="header__nav-link" to="#">
-                    <span className="header__signout">Sign out</span>
-                  </Link>
-                </li>
-              </ul>
-            </nav>
+            <HeaderUserProfile />
           </div>
         </div>
       </header>
@@ -116,7 +103,7 @@ function Offer(): JSX.Element | null {
                 <h1 className="offer__name">
                   Beautiful &amp; luxurious studio at great location
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
+                <button className={`offer__bookmark-button button${offerDetailed.isFavorite ? ' offer__bookmark-button--active' : ''}`} type="button" onClick={handleFavoriteClick}>
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
