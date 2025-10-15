@@ -11,6 +11,7 @@ import {UserData} from '../types/user-data';
 import {StatusCodes} from 'http-status-codes';
 import {CommentDto} from '../types/comment-dto.js';
 import {setError} from './app-process/app-process';
+import {changeFavoriteOfferStatus} from './offers-data/offers-data';
 
 export const fetchOffersAction = createAsyncThunk<Offer[], undefined, {
   dispatch: AppDispatch;
@@ -144,5 +145,17 @@ export const saveCommentAction = createAsyncThunk<Comment, CommentDto & { offerI
   async ({offerId, comment, rating}, {extra: api}) => {
     const {data} = await api.post<Comment>(`${APIRoute.Comments}/${offerId}`, {comment, rating});
     return data;
+  },
+);
+
+export const changeFavoriteOfferStatusAction = createAsyncThunk<void, {offerId: string; isFavorite: number }, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'changeFavoriteOfferStatusAction',
+  async ({offerId, isFavorite}, {extra: api, dispatch}) => {
+    const {data} = await api.post<Offer>(`${APIRoute.Favorites}/${offerId}/${isFavorite}`, {offerId, isFavorite});
+    dispatch(changeFavoriteOfferStatus(data));
   },
 );

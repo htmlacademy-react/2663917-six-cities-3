@@ -9,7 +9,7 @@ import {Point} from '../../types/point';
 import OffersList from '../../components/offers-list/offers-list';
 import {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction} from '../../store/api-actions';
+import {changeFavoriteOfferStatusAction, fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction} from '../../store/api-actions';
 import {AppRoute, AuthorizationStatus} from '../../Const';
 import {setResourceNotFound} from '../../store/offers-data/offers-data';
 import {getComments, getIsOfferNotFound, getOfferDetailed, getOffersNearby} from '../../store/offers-data/selectors';
@@ -46,7 +46,12 @@ function Offer(): JSX.Element | null {
   const onActiveChange = (newActiveOfferId: string | undefined) => {
     setActiveOfferId(newActiveOfferId);
   };
-
+  const handleFavoriteClick = () => {
+    dispatch(changeFavoriteOfferStatusAction({
+      offerId: offerDetailed.id,
+      isFavorite: offerDetailed.isFavorite ? 0 : 1
+    }));
+  };
   return (
     <div className="page">
       <Helmet>
@@ -98,7 +103,7 @@ function Offer(): JSX.Element | null {
                 <h1 className="offer__name">
                   Beautiful &amp; luxurious studio at great location
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
+                <button className={`offer__bookmark-button button${offerDetailed.isFavorite ? ' offer__bookmark-button--active' : ''}`} type="button" onClick={handleFavoriteClick}>
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
