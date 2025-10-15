@@ -1,7 +1,7 @@
-import {AxiosInstance} from 'axios';
+import axios, {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
-import {loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby, loadUserData, requireAuthorization, setDataLoadingStatus, setError} from './action';
+import {addComment, loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby, loadUserData, setAuthorizationStatus, setDataLoadingStatus, setError, setResourceNotFound} from './action';
 import {Offer} from '../types/offer.js';
 import {APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../Const';
 import {OfferDetailed} from '../types/offer-detailed';
@@ -10,6 +10,14 @@ import {dropToken, saveToken} from '../services/token';
 import {AuthData} from '../types/auth-data';
 import {UserData} from '../types/user-data';
 import {store} from './index';
+import {StatusCodes} from 'http-status-codes';
+import { CommentDto } from '../types/comment-dto.js';
+
+const resetUserData = (dispatch: AppDispatch) => {
+  dropToken();
+  dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
+  dispatch(loadUserData({userData: null}));
+};
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -32,8 +40,15 @@ export const fetchOfferAction = createAsyncThunk<void, string, {
 }>(
   'fetchOffer',
   async (offerId, {dispatch, extra: api}) => {
-    const {data} = await api.get<OfferDetailed>(`${APIRoute.Offers}/${offerId}`);
-    dispatch(loadOffer(data));
+    try {
+      const {data} = await api.get<OfferDetailed>(`${APIRoute.Offers}/${offerId}`);
+      dispatch(loadOffer(data));
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === StatusCodes.NOT_FOUND) {
+        dispatch(setResourceNotFound(true));
+      }
+      throw error;
+    }
   },
 );
 
@@ -81,17 +96,13 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   'checkAuth',
   async (_arg, {dispatch, extra: api}) => {
     try {
-      await api.get(APIRoute.Login);
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    } catch {
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-      dispatch(loadUserData({userData: {
-        email: '',
-        token: '',
-        name: '',
-        avatarUrl: '',
-        isPro: false
-      }}));
+      const {data} = await api.get<UserData>(APIRoute.Login);
+      dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
+      dispatch(loadUserData({userData: data}));
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === StatusCodes.UNAUTHORIZED) {
+        resetUserData(dispatch);
+      }
     }
   },
 );
@@ -105,7 +116,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
   async ({email, password}, {dispatch, extra: api}) => {
     const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(data.token);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
     dispatch(loadUserData({userData: data}));
   },
 );
@@ -117,16 +128,8 @@ export const logoutAction = createAsyncThunk<void, undefined, {
 }>(
   'logout',
   async (_arg, {dispatch, extra: api}) => {
+    resetUserData(dispatch);
     await api.delete(APIRoute.Logout);
-    dropToken();
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-    dispatch(loadUserData({userData: {
-      email: '',
-      token: '',
-      name: '',
-      avatarUrl: '',
-      isPro: false
-    }}));
   },
 );
 
@@ -137,5 +140,17 @@ export const clearErrorAction = createAsyncThunk(
       () => store.dispatch(setError(null)),
       TIMEOUT_SHOW_ERROR,
     );
+  },
+);
+
+export const saveCommentAction = createAsyncThunk<void, CommentDto & { offerId: string }, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'saveComment',
+  async ({offerId, comment, rating}, {dispatch, extra: api}) => {
+    const {data} = await api.post<Comment>(`${APIRoute.Comments}/${offerId}`, {comment, rating});
+    dispatch(addComment({offerId: offerId, comment: data}));
   },
 );

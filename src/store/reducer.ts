@@ -1,5 +1,5 @@
 import { createReducer, PayloadAction } from '@reduxjs/toolkit';
-import { changeCity, loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby, loadUserData, requireAuthorization, setDataLoadingStatus, setError } from './action';
+import { addComment, changeCity, loadComments, loadFavorites, loadOffer, loadOffers, loadOffersNearby, loadUserData, setAuthorizationStatus, setDataLoadingStatus, setError, setResourceNotFound } from './action';
 import { Offer } from '../types/offer';
 import { OfferDetailed } from '../types/offer-detailed';
 import { Comment } from '../types/comment';
@@ -15,13 +15,9 @@ const initialState = {
   favorites: [] as Offer[],
   isDataLoading: false,
   error: null as string | null,
-  authorizationStatus: AuthorizationStatus.Unknown as AuthorizationStatus,
-  userData: {
-    email: '',
-    name: '',
-    avatarUrl: '',
-    isPro: false
-  }
+  authorizationStatus: AuthorizationStatus.NoAuth,
+  userData: null as UserData | null,
+  isResourceNotFound: false
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -57,13 +53,19 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setDataLoadingStatus, (state, action) => {
       state.isDataLoading = action.payload;
     })
-    .addCase(requireAuthorization, (state, action) => {
+    .addCase(setAuthorizationStatus, (state, action) => {
       state.authorizationStatus = action.payload;
     })
     .addCase(setError, (state, action) => {
       state.error = action.payload;
     })
-    .addCase(loadUserData, (state, action: PayloadAction<{userData: UserData}>) => {
+    .addCase(loadUserData, (state, action: PayloadAction<{userData: UserData | null}>) => {
       state.userData = action.payload.userData;
+    })
+    .addCase(setResourceNotFound, (state, action: PayloadAction<boolean>) => {
+      state.isResourceNotFound = action.payload;
+    })
+    .addCase(addComment, (state, action: PayloadAction<{offerId: string; comment: Comment}>) => {
+      state.comments[action.payload.offerId].push(action.payload.comment);
     });
 });

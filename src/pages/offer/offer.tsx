@@ -1,28 +1,39 @@
-import { Helmet } from 'react-helmet-async';
+import {Helmet} from 'react-helmet-async';
 import ReviewForm from '../../components/review-form/review-form';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import ReviewsList from '../../components/reviews-list/reviews-list';
-import { useParams } from 'react-router-dom';
-import { convertToPoints } from '../../utils/offersConverter';
+import {useParams} from 'react-router-dom';
+import {convertToPoints} from '../../utils/offersConverter';
 import Map from '../../components/map/map';
-import { Point } from '../../types/point';
+import {Point} from '../../types/point';
 import OffersList from '../../components/offers-list/offers-list';
-import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction } from '../../store/api-actions';
+import {useEffect, useState} from 'react';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction} from '../../store/api-actions';
+import {AppRoute, AuthorizationStatus} from '../../Const';
+import {setResourceNotFound} from '../../store/action';
 
 function Offer(): JSX.Element | null {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const allOffersDetailed = useAppSelector((state) => state.offersDetailed);
   const offerDetailed = allOffersDetailed.find((offer) => offer.id === id);
+  const isResourceNotFound = useAppSelector((state) => state.isResourceNotFound);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const navigate = useNavigate();
   useEffect(() => {
-    if (id && !offerDetailed) {
+    if (isResourceNotFound) {
+      navigate(AppRoute.NotFound);
+      dispatch(setResourceNotFound(false));
+    }
+  }, [isResourceNotFound, navigate, dispatch]);
+  useEffect(() => {
+    if (id) {
       dispatch(fetchOfferAction(id));
       dispatch(fetchOffersNearbyAction(id));
       dispatch(fetchCommentsAction(id));
     }
-  }, [dispatch, id, offerDetailed]);
+  }, [dispatch, id]);
   const offersNearby = useAppSelector((state) =>
     state.offersNearby[id ?? ''] ?? []
   );
@@ -194,7 +205,7 @@ function Offer(): JSX.Element | null {
               <section className="offer__reviews reviews">
                 {comments.length > 0 && (<h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>)}
                 {comments.length > 0 && (<ReviewsList comments={comments} />)}
-                <ReviewForm />
+                {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm offerId={id} />}
               </section>
             </div>
           </div>
