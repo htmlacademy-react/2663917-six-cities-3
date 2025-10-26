@@ -37,13 +37,10 @@ function Main({cities}: MainProps): JSX.Element {
   const offers = useMemo(() => 
     allOffers.filter((offer: any) => offer.city.name === currentCityName), 
     [allOffers, currentCityName]
+  const sortedOffers = useMemo(() =>
+    sortOffers(offers, sortType),
+  [offers, sortType]
   );
-  
-  const sortedOffers = useMemo(() => 
-    sortOffers(offers, sortType), 
-    [offers, sortType]
-  );
-  
   const points: Point[] = convertToPoints(offers);
 
   return (

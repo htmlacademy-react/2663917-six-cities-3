@@ -33,4 +33,5 @@ function OffersList({offers, onActiveChange}: OffersListProps): JSX.Element {
   );
 }
 
-export default memo(OffersList);
+const MemoizedOffersList = memo(OffersList);
+export default MemoizedOffersList;

@@ -40,12 +40,12 @@ function Offer(): JSX.Element | null {
   const comments = useAppSelector(getComments);
   const points: Point[] = useMemo(() => convertToPoints(offersNearby), [offersNearby]);
   const [activeOfferId, setActiveOfferId] = useState<string | undefined>(undefined);
-  if (id === undefined || !offerDetailed) {
-    return null;
-  }
   const onActiveChange = useCallback((newActiveOfferId: string | undefined) => {
     setActiveOfferId(newActiveOfferId);
   }, []);
+  if (id === undefined || !offerDetailed) {
+    return null;
+  }
   const handleFavoriteClick = () => {
     dispatch(changeFavoriteOfferStatusAction({
       offerId: offerDetailed.id,

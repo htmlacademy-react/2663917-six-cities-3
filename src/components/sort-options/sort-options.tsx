@@ -57,4 +57,5 @@ function SortOptions({sortType, onSortTypeChange}: SortOptionsProps): JSX.Elemen
   );
 }
 
-export default memo(SortOptions);
+const MemoizedSortOptions = memo(SortOptions);
+export default MemoizedSortOptions;

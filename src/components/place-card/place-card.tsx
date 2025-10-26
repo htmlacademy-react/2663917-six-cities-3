@@ -70,4 +70,5 @@ function PlaceCard({offer, onSetActive, onResetActive}: PlaceCardProps): JSX.Ele
   );
 }
 
-export default memo(PlaceCard);
+const MemoizedPlaceCard = memo(PlaceCard);
+export default MemoizedPlaceCard;
