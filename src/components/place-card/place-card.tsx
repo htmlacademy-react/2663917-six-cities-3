@@ -3,6 +3,7 @@ import {Offer} from '../../types/offer';
 import RatingStarsWidthResolver from '../../utils/ratingStarsWidthResolver';
 import {useAppDispatch} from '../../hooks';
 import {changeFavoriteOfferStatusAction} from '../../store/api-actions';
+import {memo} from 'react';
 
 type PlaceCardProps = {
     offer: Offer;
@@ -69,4 +70,4 @@ function PlaceCard({offer, onSetActive, onResetActive}: PlaceCardProps): JSX.Ele
   );
 }
 
-export default PlaceCard;
+export default memo(PlaceCard);
