@@ -12,15 +12,14 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {changeFavoriteOfferStatusAction, fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction} from '../../store/api-actions';
 import {AppRoute, AuthorizationStatus} from '../../Const';
 import {setResourceNotFound} from '../../store/offers-data/offers-data';
-import {getComments, getIsOfferNotFound, getOfferDetailed, getOffersNearby} from '../../store/offers-data/selectors';
+import {getOfferPageData} from '../../store/offers-data/selectors';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
 import HeaderUserProfile from '../../components/header-user-profile/header-user-profile';
 
 function Offer(): JSX.Element | null {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const offerDetailed = useAppSelector(getOfferDetailed);
-  const isOfferNotFound = useAppSelector(getIsOfferNotFound);
+  const {offerDetailed, isOfferNotFound, offersNearby, comments} = useAppSelector(getOfferPageData);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
   useEffect(() => {
@@ -36,8 +35,6 @@ function Offer(): JSX.Element | null {
       dispatch(fetchCommentsAction(id));
     }
   }, [dispatch, id]);
-  const offersNearby = useAppSelector(getOffersNearby);
-  const comments = useAppSelector(getComments);
   const points: Point[] = useMemo(() => convertToPoints(offersNearby), [offersNearby]);
   const [activeOfferId, setActiveOfferId] = useState<string | undefined>(undefined);
   const onActiveChange = useCallback((newActiveOfferId: string | undefined) => {

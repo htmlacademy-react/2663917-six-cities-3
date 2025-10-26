@@ -10,16 +10,14 @@ import {HelmetProvider} from 'react-helmet-async';
 import {City} from '../../types/city';
 import LoadingScreen from '../../loading-screen';
 import {useAppSelector} from '../../hooks';
-import {getAuthorizationStatus} from '../../store/user-process/selectors';
-import {getIsDataLoading} from '../../store/offers-data/selectors';
+import {getAppState} from '../../store/app-process/selectors';
 
 type AppProps = {
   cities: City[];
 }
 
 function App({cities}: AppProps): JSX.Element {
-  const isDataLoading = useAppSelector(getIsDataLoading);
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const {isDataLoading, authorizationStatus} = useAppSelector(getAppState);
   if (isDataLoading) {
     return (
       <LoadingScreen />
