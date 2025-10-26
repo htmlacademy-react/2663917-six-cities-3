@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Offers } from '../../types/offer';
+import {useState, memo} from 'react';
+import {Offers} from '../../types/offer';
 import PlaceCard from '../place-card/place-card';
 
 type OffersListProps = {
@@ -29,4 +29,4 @@ function OffersList({offers, onActiveChange}: OffersListProps): JSX.Element {
   );
 }
 
-export default OffersList;
+export default memo(OffersList);

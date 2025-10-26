@@ -2,17 +2,16 @@ import {Link} from 'react-router-dom';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import {Point} from '../../types/point';
-import {useState} from 'react';
+import {useState, useCallback, useMemo} from 'react';
 import {convertToPoints} from '../../utils/offersConverter';
 import CitiesList from '../../components/cities-list/cities-list';
 import {City} from '../../types/city';
 import {useAppSelector} from '../../hooks';
+import {getOffers} from '../../store/offers-data/selectors';
+import {getCityName} from '../../store/app-process/selectors';
 import SortOptions from '../../components/sort-options/sort-options';
 import {SortType} from '../../Const';
 import {sortOffers} from '../../utils/sortOffers';
-import {getCityName} from '../../store/app-process/selectors';
-import {getOffers} from '../../store/offers-data/selectors';
-import MainEmpty from '../main-empty/main-empty';
 import HeaderUserProfile from '../../components/header-user-profile/header-user-profile';
 
 type MainProps = {
@@ -22,21 +21,30 @@ type MainProps = {
 function Main({cities}: MainProps): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | undefined>(undefined);
   const [sortType, setSortType] = useState<number | undefined>(SortType.Popular);
-  const onActiveChange = (offerId: string | undefined) => {
+  
+  const onActiveChange = useCallback((offerId: string | undefined) => {
     setActiveOfferId(offerId);
-  };
+  }, []);
+  
+  const onSortTypeChange = useCallback((newSortType: SortType) => {
+    setSortType(newSortType);
+  }, []);
+  
   const allOffers = useAppSelector(getOffers);
   const currentCityName = useAppSelector(getCityName);
   const city = cities.filter((c) => c.name === currentCityName)[0];
-  const offers = allOffers.filter((offer) => offer.city.name === currentCityName);
-  if (offers.length === 0) {
-    return <MainEmpty cities={cities} />;
-  }
-  const sortedOffers = sortOffers(offers, sortType);
+  
+  const offers = useMemo(() => 
+    allOffers.filter((offer: any) => offer.city.name === currentCityName), 
+    [allOffers, currentCityName]
+  );
+  
+  const sortedOffers = useMemo(() => 
+    sortOffers(offers, sortType), 
+    [offers, sortType]
+  );
+  
   const points: Point[] = convertToPoints(offers);
-  const onSortTypeChange = (newSortType: SortType) => {
-    setSortType(newSortType);
-  };
 
   return (
     <div className="page page--gray page--main">
