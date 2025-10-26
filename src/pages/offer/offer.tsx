@@ -7,7 +7,7 @@ import {convertToPoints} from '../../utils/offersConverter';
 import Map from '../../components/map/map';
 import {Point} from '../../types/point';
 import OffersList from '../../components/offers-list/offers-list';
-import {useEffect, useState, useCallback} from 'react';
+import {useEffect, useState, useCallback, useMemo} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {changeFavoriteOfferStatusAction, fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction} from '../../store/api-actions';
 import {AppRoute, AuthorizationStatus} from '../../Const';
@@ -38,7 +38,7 @@ function Offer(): JSX.Element | null {
   }, [dispatch, id]);
   const offersNearby = useAppSelector(getOffersNearby);
   const comments = useAppSelector(getComments);
-  const points: Point[] = convertToPoints(offersNearby);
+  const points: Point[] = useMemo(() => convertToPoints(offersNearby), [offersNearby]);
   const [activeOfferId, setActiveOfferId] = useState<string | undefined>(undefined);
   if (id === undefined || !offerDetailed) {
     return null;

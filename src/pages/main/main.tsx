@@ -32,7 +32,7 @@ function Main({cities}: MainProps): JSX.Element {
   
   const allOffers = useAppSelector(getOffers);
   const currentCityName = useAppSelector(getCityName);
-  const city = cities.filter((c) => c.name === currentCityName)[0];
+  const city = useMemo(() => cities.filter((c) => c.name === currentCityName)[0], [cities, currentCityName]);
   
   const offers = useMemo(() => 
     allOffers.filter((offer: any) => offer.city.name === currentCityName), 
