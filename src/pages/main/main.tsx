@@ -2,16 +2,17 @@ import {Link} from 'react-router-dom';
 import OffersList from '../../components/offers-list/offers-list';
 import Map from '../../components/map/map';
 import {Point} from '../../types/point';
-import {useState} from 'react';
+import {useState, useCallback, useMemo} from 'react';
 import {convertToPoints} from '../../utils/offersConverter';
 import CitiesList from '../../components/cities-list/cities-list';
 import {City} from '../../types/city';
 import {useAppSelector} from '../../hooks';
+import {getOffersByCity} from '../../store/offers-data/selectors';
+import {getCityName} from '../../store/app-process/selectors';
 import SortOptions from '../../components/sort-options/sort-options';
-import {AuthorizationStatus, SortType} from '../../Const';
+import {SortType} from '../../Const';
 import {sortOffers} from '../../utils/sortOffers';
-import AuthorizedHeaderUserProfile from '../../components/authorized-header-user-profile/authorized-header-user-profile';
-import AnonymousHeaderUserProfile from '../../components/anonymous-header-user-profile/anonymous-header-user-profile';
+import HeaderUserProfile from '../../components/header-user-profile/header-user-profile';
 
 type MainProps = {
     cities: City[];
@@ -20,20 +21,20 @@ type MainProps = {
 function Main({cities}: MainProps): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | undefined>(undefined);
   const [sortType, setSortType] = useState<number | undefined>(SortType.Popular);
-  const onActiveChange = (offerId: string | undefined) => {
+  const onActiveChange = useCallback((offerId: string | undefined) => {
     setActiveOfferId(offerId);
-  };
-  const allOffers = useAppSelector((state) => state.offers);
-  const currentCityName = useAppSelector((state) => state.cityName);
-  const city = cities.filter((c) => c.name === currentCityName)[0];
-  const offers = allOffers.filter((offer) => offer.city.name === currentCityName);
-  const sortedOffers = sortOffers(offers, sortType);
-  const points: Point[] = convertToPoints(offers);
-  const onSortTypeChange = (newSortType: SortType) => {
+  }, []);
+  const onSortTypeChange = useCallback((newSortType: SortType) => {
     setSortType(newSortType);
-  };
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const userData = useAppSelector((state) => state.userData);
+  }, []);
+  const offers = useAppSelector(getOffersByCity);
+  const currentCityName = useAppSelector(getCityName);
+  const city = useMemo(() => cities.filter((c) => c.name === currentCityName)[0], [cities, currentCityName]);
+  const sortedOffers = useMemo(() =>
+    sortOffers(offers, sortType),
+  [offers, sortType]
+  );
+  const points: Point[] = convertToPoints(offers);
 
   return (
     <div className="page page--gray page--main">
@@ -45,11 +46,7 @@ function Main({cities}: MainProps): JSX.Element {
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
             </div>
-            <nav className="header__nav">
-              {authorizationStatus === AuthorizationStatus.Auth && userData &&
-                <AuthorizedHeaderUserProfile userAvatarUrl={userData.avatarUrl} userEmail={userData.email} />}
-              {authorizationStatus === AuthorizationStatus.NoAuth && <AnonymousHeaderUserProfile />}
-            </nav>
+            <HeaderUserProfile />
           </div>
         </div>
       </header>

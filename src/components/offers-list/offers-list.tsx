@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Offers } from '../../types/offer';
+import {useState, memo, useCallback} from 'react';
+import {Offers} from '../../types/offer';
 import PlaceCard from '../place-card/place-card';
 
 type OffersListProps = {
@@ -10,23 +10,28 @@ type OffersListProps = {
 function OffersList({offers, onActiveChange}: OffersListProps): JSX.Element {
   const [, setActiveOfferId] = useState<string | undefined>(undefined);
 
+  const handleSetActive = useCallback((offerId: string) => {
+    setActiveOfferId(offerId);
+    onActiveChange(offerId);
+  }, [onActiveChange]);
+
+  const handleResetActive = useCallback(() => {
+    setActiveOfferId(undefined);
+    onActiveChange(undefined);
+  }, [onActiveChange]);
+
   return (
     <div className="cities__places-list places__list tabs__content" style={{justifyContent: 'center'}}>
       {offers.map((offer) => (
         <PlaceCard
           offer={offer}
           key={offer.id}
-          onSetActive={(offerId: string) => {
-            setActiveOfferId(offerId);
-            onActiveChange(offerId);
-          }}
-          onResetActive={() => {
-            setActiveOfferId(undefined);
-            onActiveChange(undefined);
-          }}
+          onSetActive={handleSetActive}
+          onResetActive={handleResetActive}
         />))}
     </div>
   );
 }
 
-export default OffersList;
+const MemoizedOffersList = memo(OffersList);
+export default MemoizedOffersList;

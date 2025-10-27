@@ -1,18 +1,12 @@
-import { Helmet } from 'react-helmet-async';
+import {Helmet} from 'react-helmet-async';
 import FavoritesList from '../../components/favorites-list/favorites-list';
-import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { useEffect } from 'react';
-import { fetchFavoritesAction } from '../../store/api-actions';
+import {Link} from 'react-router-dom';
+import {useAppSelector} from '../../hooks';
+import {getFavorites} from '../../store/offers-data/selectors';
+import HeaderUserProfile from '../../components/header-user-profile/header-user-profile';
 
 function Favorites(): JSX.Element {
-  const favoriteOffers = useAppSelector((state) => state.favorites);
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    if (favoriteOffers.length === 0) {
-      dispatch(fetchFavoritesAction());
-    }
-  }, [dispatch, favoriteOffers.length]);
+  const favoriteOffers = useAppSelector(getFavorites);
 
   return (
     <div className="page">
@@ -27,23 +21,7 @@ function Favorites(): JSX.Element {
                 <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
               </Link>
             </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to="#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </Link>
-                </li>
-                <li className="header__nav-item">
-                  <Link className="header__nav-link" to="#">
-                    <span className="header__signout">Sign out</span>
-                  </Link>
-                </li>
-              </ul>
-            </nav>
+            <HeaderUserProfile />
           </div>
         </div>
       </header>

@@ -1,8 +1,9 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { loginAction } from '../../store/api-actions';
-import { useNavigate } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../Const';
+import {ChangeEvent, FormEvent, useEffect, useState} from 'react';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {loginAction} from '../../store/api-actions';
+import {useNavigate} from 'react-router-dom';
+import {AppRoute, AuthorizationStatus} from '../../Const';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
 
 function LoginForm(): JSX.Element {
   const [loginFormData, setLoginFormData] = useState({
@@ -11,7 +12,7 @@ function LoginForm(): JSX.Element {
   });
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   useEffect(() => {
     if (authorizationStatus === AuthorizationStatus.Auth) {
