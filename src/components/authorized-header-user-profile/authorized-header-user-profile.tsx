@@ -13,7 +13,7 @@ type AuthorizedHeaderUserProfileProps = {
 function AuthorizedHeaderUserProfile({userAvatarUrl, userEmail}: AuthorizedHeaderUserProfileProps): JSX.Element {
   const dispatch = useAppDispatch();
   const favoriteOffers: Offer[] = useAppSelector(getFavorites);
-  
+
   const handleLogoutClick = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
     dispatch(logoutAction());

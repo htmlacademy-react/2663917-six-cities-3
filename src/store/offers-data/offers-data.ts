@@ -1,5 +1,5 @@
 import {createSlice, isRejectedWithValue, PayloadAction} from '@reduxjs/toolkit';
-import {fetchOffersAction, fetchOfferAction, fetchOffersNearbyAction, fetchCommentsAction, fetchFavoritesAction, saveCommentAction} from '../api-actions'; // Скоро обновим api-actions
+import {fetchOffersAction, fetchOfferAction, fetchOffersNearbyAction, fetchCommentsAction, fetchFavoritesAction, saveCommentAction, logoutAction} from '../api-actions'; // Скоро обновим api-actions
 import {NameSpace} from '../../Const';
 import {OffersData} from '../../types/state';
 import {StatusCodes} from 'http-status-codes';
@@ -69,10 +69,50 @@ export const offersData = createSlice({
         state.comments = action.payload;
       })
       .addCase(fetchFavoritesAction.fulfilled, (state, action) => {
-        state.favorites = action.payload;
+        const favorites = action.payload;
+        const favoriteIds = new Set(favorites.map((fav) => fav.id));
+
+        state.offers = state.offers.map((offer) => ({
+          ...offer,
+          isFavorite: favoriteIds.has(offer.id)
+        }));
+
+        if (state.offerDetailed) {
+          state.offerDetailed = {
+            ...state.offerDetailed,
+            isFavorite: favoriteIds.has(state.offerDetailed.id)
+          };
+        }
+
+        state.offersNearby = state.offersNearby.map((offer) => ({
+          ...offer,
+          isFavorite: favoriteIds.has(offer.id)
+        }));
+
+        state.favorites = favorites;
       })
       .addCase(saveCommentAction.fulfilled, (state, action) => {
         state.comments.push(action.payload);
+      })
+      .addCase(logoutAction.fulfilled, (state) => {
+        state.offers = state.offers.map((offer) => ({
+          ...offer,
+          isFavorite: false
+        }));
+
+        if (state.offerDetailed) {
+          state.offerDetailed = {
+            ...state.offerDetailed,
+            isFavorite: false
+          };
+        }
+
+        state.offersNearby = state.offersNearby.map((offer) => ({
+          ...offer,
+          isFavorite: false
+        }));
+
+        state.favorites = [];
       });
   },
 });

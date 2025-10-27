@@ -22,13 +22,13 @@ type AppProps = {
 function App({cities}: AppProps): JSX.Element {
   const {isDataLoading, authorizationStatus} = useAppSelector(getAppState);
   const dispatch = useAppDispatch();
-  
+
   useEffect(() => {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       dispatch(fetchFavoritesAction());
     }
   }, [dispatch, authorizationStatus]);
-  
+
   if (isDataLoading) {
     return (
       <LoadingScreen />

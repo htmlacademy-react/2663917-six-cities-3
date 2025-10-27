@@ -22,6 +22,7 @@ function Offer(): JSX.Element | null {
   const {offerDetailed, isOfferNotFound, offersNearby, comments} = useAppSelector(getOfferPageData);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
+  const isAuth = authorizationStatus === AuthorizationStatus.Auth;
   useEffect(() => {
     if (isOfferNotFound) {
       navigate(AppRoute.NotFound);
@@ -44,11 +45,17 @@ function Offer(): JSX.Element | null {
     return null;
   }
   const handleFavoriteClick = () => {
-    dispatch(changeFavoriteOfferStatusAction({
-      offerId: offerDetailed.id,
-      isFavorite: offerDetailed.isFavorite ? 0 : 1
-    }));
+    if (isAuth) {
+      dispatch(changeFavoriteOfferStatusAction({
+        offerId: offerDetailed.id,
+        isFavorite: offerDetailed.isFavorite ? 0 : 1
+      }));
+    } else {
+      navigate(AppRoute.Login);
+    }
   };
+
+  const isButtonActive = isAuth && offerDetailed.isFavorite;
   return (
     <div className="page">
       <Helmet>
@@ -100,7 +107,7 @@ function Offer(): JSX.Element | null {
                 <h1 className="offer__name">
                   Beautiful &amp; luxurious studio at great location
                 </h1>
-                <button className={`offer__bookmark-button button${offerDetailed.isFavorite ? ' offer__bookmark-button--active' : ''}`} type="button" onClick={handleFavoriteClick}>
+                <button className={`offer__bookmark-button button${isButtonActive ? ' offer__bookmark-button--active' : ''}`} type="button" onClick={handleFavoriteClick}>
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
