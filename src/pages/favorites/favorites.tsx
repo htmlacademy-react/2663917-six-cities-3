@@ -1,18 +1,12 @@
 import {Helmet} from 'react-helmet-async';
 import FavoritesList from '../../components/favorites-list/favorites-list';
 import {Link} from 'react-router-dom';
-import {useAppDispatch, useAppSelector} from '../../hooks';
-import {useEffect} from 'react';
-import {fetchFavoritesAction} from '../../store/api-actions';
+import {useAppSelector} from '../../hooks';
 import {getFavorites} from '../../store/offers-data/selectors';
 import HeaderUserProfile from '../../components/header-user-profile/header-user-profile';
 
 function Favorites(): JSX.Element {
   const favoriteOffers = useAppSelector(getFavorites);
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(fetchFavoritesAction());
-  }, [dispatch]);
 
   return (
     <div className="page">

@@ -9,8 +9,11 @@ import PrivateRoute from '../private-route/private-route';
 import {HelmetProvider} from 'react-helmet-async';
 import {City} from '../../types/city';
 import LoadingScreen from '../../loading-screen';
-import {useAppSelector} from '../../hooks';
+import {useAppSelector, useAppDispatch} from '../../hooks';
 import {getAppState} from '../../store/app-process/selectors';
+import {fetchFavoritesAction} from '../../store/api-actions';
+import {useEffect} from 'react';
+import {AuthorizationStatus} from '../../Const';
 
 type AppProps = {
   cities: City[];
@@ -18,6 +21,14 @@ type AppProps = {
 
 function App({cities}: AppProps): JSX.Element {
   const {isDataLoading, authorizationStatus} = useAppSelector(getAppState);
+  const dispatch = useAppDispatch();
+  
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(fetchFavoritesAction());
+    }
+  }, [dispatch, authorizationStatus]);
+  
   if (isDataLoading) {
     return (
       <LoadingScreen />

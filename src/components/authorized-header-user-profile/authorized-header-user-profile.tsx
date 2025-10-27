@@ -1,10 +1,9 @@
 import {Link} from 'react-router-dom';
-import {fetchFavoritesAction, logoutAction} from '../../store/api-actions';
+import {logoutAction} from '../../store/api-actions';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import './authorized-header-user-profile.css';
 import {Offer} from '../../types/offer';
 import {getFavorites} from '../../store/offers-data/selectors';
-import {useEffect} from 'react';
 
 type AuthorizedHeaderUserProfileProps = {
   userAvatarUrl: string;
@@ -14,9 +13,7 @@ type AuthorizedHeaderUserProfileProps = {
 function AuthorizedHeaderUserProfile({userAvatarUrl, userEmail}: AuthorizedHeaderUserProfileProps): JSX.Element {
   const dispatch = useAppDispatch();
   const favoriteOffers: Offer[] = useAppSelector(getFavorites);
-  useEffect(() => {
-    dispatch(fetchFavoritesAction());
-  }, [dispatch]);
+  
   const handleLogoutClick = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
     dispatch(logoutAction());
