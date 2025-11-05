@@ -17,12 +17,15 @@ export const makeFakeCity = (): City => ({
   location: makeFakeLocation(),
 });
 
+const getRandomOfferType = (): 'house' | 'room' | 'hotel' | 'apartment' => {
+  const types: ('house' | 'room' | 'hotel' | 'apartment')[] = ['house', 'room', 'hotel', 'apartment'];
+  return types[datatype.number({ min: 0, max: 3 })];
+};
+
 export const makeFakeOffer = (): Offer => ({
   id: datatype.uuid(),
   title: lorem.sentence(),
-  type: datatype.number({ min: 0, max: 3 }) === 0 ? 'house' : 
-    datatype.number({ min: 0, max: 3 }) === 1 ? 'room' : 
-    datatype.number({ min: 0, max: 3 }) === 2 ? 'hotel' : 'apartment',
+  type: getRandomOfferType(),
   price: datatype.number({ min: 50, max: 500 }),
   city: makeFakeCity(),
   location: makeFakeLocation(),

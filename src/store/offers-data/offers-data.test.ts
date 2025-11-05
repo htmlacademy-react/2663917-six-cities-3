@@ -235,9 +235,9 @@ describe('OffersData Slice', () => {
     it('should set "isOfferNotFound" to "true" with "fetchOfferAction.rejected" when status is 404', () => {
       const result = offersData.reducer(
         undefined,
-        { 
-          type: fetchOfferAction.rejected, 
-          payload: 404, 
+        {
+          type: fetchOfferAction.rejected,
+          payload: 404,
           meta: { rejectedWithValue: true, requestId: '', requestStatus: 'rejected' }
         }
       );
@@ -258,9 +258,9 @@ describe('OffersData Slice', () => {
 
       const result = offersData.reducer(
         initialState,
-        { 
-          type: fetchOfferAction.rejected, 
-          payload: 500, 
+        {
+          type: fetchOfferAction.rejected,
+          payload: 500,
           meta: { rejectedWithValue: true, requestId: '', requestStatus: 'rejected' }
         }
       );

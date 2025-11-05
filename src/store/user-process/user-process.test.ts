@@ -56,9 +56,9 @@ describe('UserProcess Slice', () => {
 
       const result = userProcess.reducer(
         initialState,
-        { 
-          type: checkAuthAction.rejected.type, 
-          payload: 401, 
+        {
+          type: checkAuthAction.rejected.type,
+          payload: 401,
           error: { name: '', message: '' },
           meta: { rejectedWithValue: true, arg: undefined, requestId: '', requestStatus: 'rejected' as const }
         }
