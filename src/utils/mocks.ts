@@ -5,6 +5,12 @@ import { UserData } from '../types/user-data';
 import { User } from '../types/user';
 import { City } from '../types/city';
 import { Location } from '../types/location';
+import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { State } from '../types/state';
+import { createAPI } from '../services/api';
+
+export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
 
 export const makeFakeLocation = (): Location => ({
   latitude: datatype.number({ min: -90, max: 90, precision: 0.000001 }),
@@ -57,3 +63,4 @@ export const makeFakeComment = (): Comment => ({
   rating: datatype.number({ min: 1, max: 5 }),
 });
 
+export const extractActionsTypes = (actions: Action<string>[]) => actions.map(({ type }) => type);
