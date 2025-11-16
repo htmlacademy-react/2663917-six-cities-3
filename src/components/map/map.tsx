@@ -52,7 +52,7 @@ function Map(props: MapProps): JSX.Element {
     }
   }, [map, points, selectedPointId]);
 
-  return <section style={{width: '100%', height: '100%'}} ref={mapRef}></section>;
+  return <section style={{width: '100%', height: '100%'}} ref={mapRef} data-testid='map'></section>;
 }
 
 export default Map;

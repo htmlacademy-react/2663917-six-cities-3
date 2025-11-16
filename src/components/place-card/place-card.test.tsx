@@ -180,9 +180,7 @@ describe('Component: PlaceCard', () => {
     const { container } = render(preparedComponent);
 
     const bookmarkButton = container.querySelector('.place-card__bookmark-button');
-    if (bookmarkButton) {
-      await userEvent.click(bookmarkButton);
-    }
+    await userEvent.click(bookmarkButton!);
 
     expect(screen.getByText(expectedText)).toBeInTheDocument();
   });
