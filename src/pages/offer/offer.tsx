@@ -7,7 +7,7 @@ import {convertToPoints} from '../../utils/offersConverter';
 import Map from '../../components/map/map';
 import {Point} from '../../types/point';
 import OffersList from '../../components/offers-list/offers-list';
-import {useEffect, useState, useCallback, useMemo} from 'react';
+import {useEffect, useMemo} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {changeFavoriteOfferStatusAction, fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction} from '../../store/api-actions';
 import {AppRoute, AuthorizationStatus} from '../../Const';
@@ -36,11 +36,20 @@ function Offer(): JSX.Element | null {
       dispatch(fetchCommentsAction(id));
     }
   }, [dispatch, id]);
-  const points: Point[] = useMemo(() => convertToPoints(offersNearby), [offersNearby]);
-  const [activeOfferId, setActiveOfferId] = useState<string | undefined>(undefined);
-  const onActiveChange = useCallback((newActiveOfferId: string | undefined) => {
-    setActiveOfferId(newActiveOfferId);
-  }, []);
+
+  const points: Point[] = useMemo(() => {
+    if (!offerDetailed) {
+      return convertToPoints(offersNearby.slice(0, 3));
+    }
+    const nearbyPoints = convertToPoints(offersNearby.slice(0, 3));
+    const currentPoint: Point = {
+      id: offerDetailed.id,
+      latitude: offerDetailed.location.latitude,
+      longitude: offerDetailed.location.longitude
+    };
+    return [currentPoint, ...nearbyPoints];
+  }, [offersNearby, offerDetailed]);
+
   if (id === undefined || !offerDetailed) {
     return null;
   }
@@ -201,13 +210,13 @@ function Offer(): JSX.Element | null {
             </div>
           </div>
           <div className="container" style={{ height: '575px', padding: '0', marginBottom: '50px' }}>
-            <Map city={offerDetailed.city} points={points} selectedPointId={activeOfferId} />
+            <Map city={offerDetailed.city} points={points} selectedPointId={offerDetailed.id} />
           </div>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <OffersList offers={offersNearby} onActiveChange={onActiveChange}/>
+            <OffersList offers={offersNearby.slice(0, 3)} onActiveChange={() => {}}/>
           </section>
         </div>
       </main>
