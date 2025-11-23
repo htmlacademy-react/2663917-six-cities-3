@@ -13,6 +13,7 @@ import SortOptions from '../../components/sort-options/sort-options';
 import {SortType} from '../../Const';
 import {sortOffers} from '../../utils/sortOffers';
 import HeaderUserProfile from '../../components/header-user-profile/header-user-profile';
+import MainEmpty from '../../components/main-empty/main-empty';
 
 type MainProps = {
     cities: City[];
@@ -35,6 +36,7 @@ function Main({cities}: MainProps): JSX.Element {
   [offers, sortType]
   );
   const points: Point[] = convertToPoints(offers);
+  const isEmpty = offers.length === 0;
 
   return (
     <div className="page page--gray page--main">
@@ -50,7 +52,7 @@ function Main({cities}: MainProps): JSX.Element {
           </div>
         </div>
       </header>
-      <main className="page__main page__main--index">
+      <main className={`page__main page__main--index${isEmpty ? ' page__main--index-empty' : ''}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
@@ -58,16 +60,22 @@ function Main({cities}: MainProps): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in {city.name}</b>
-              <SortOptions sortType={sortType} onSortTypeChange={onSortTypeChange} />
-              <OffersList offers={sortedOffers} onActiveChange={onActiveChange} />
-            </section>
-            <div className="cities__right-section">
-              <Map city={city} points={points} selectedPointId={activeOfferId} />
-            </div>
+          <div className={`cities__places-container container${isEmpty ? ' cities__places-container--empty' : ''}`}>
+            {isEmpty ? (
+              <MainEmpty currentCityName={currentCityName} />
+            ) : (
+              <>
+                <section className="cities__places places">
+                  <h2 className="visually-hidden">Places</h2>
+                  <b className="places__found">{offers.length} places to stay in {city.name}</b>
+                  <SortOptions sortType={sortType} onSortTypeChange={onSortTypeChange} />
+                  <OffersList offers={sortedOffers} onActiveChange={onActiveChange} />
+                </section>
+                <div className="cities__right-section">
+                  <Map city={city} points={points} selectedPointId={activeOfferId} />
+                </div>
+              </>
+            )}
           </div>
         </div>
       </main>
