@@ -39,7 +39,7 @@ function LoginForm(): JSX.Element {
       </div>
       <div className="login__input-wrapper form__input-wrapper">
         <label className="visually-hidden">Password</label>
-        <input className="login__input form__input" type="password" name="password" value={loginFormData.password} placeholder="Password" required onChange={loginFormFieldChangeHandle} />
+        <input className="login__input form__input" type="password" name="password" value={loginFormData.password} placeholder="Password" required pattern=".*[a-zA-Z].*\d.*|.*\d.*[a-zA-Z].*" onChange={loginFormFieldChangeHandle} />
       </div>
       <button className="login__submit form__submit button" type="submit">Sign in</button>
     </form>
