@@ -12,7 +12,8 @@ const initialState: OffersData = {
   comments: [],
   favorites: [],
   isOfferNotFound: false,
-  isDataLoading: false
+  isDataLoading: false,
+  isCommentSaving: false
 };
 
 export const offersData = createSlice({
@@ -91,8 +92,14 @@ export const offersData = createSlice({
 
         state.favorites = favorites;
       })
-      .addCase(saveCommentAction.fulfilled, (state, action) => {
-        state.comments.push(action.payload);
+      .addCase(saveCommentAction.pending, (state) => {
+        state.isCommentSaving = true;
+      })
+      .addCase(saveCommentAction.fulfilled, (state) => {
+        state.isCommentSaving = false;
+      })
+      .addCase(saveCommentAction.rejected, (state) => {
+        state.isCommentSaving = false;
       })
       .addCase(logoutAction.fulfilled, (state) => {
         state.offers = state.offers.map((offer) => ({

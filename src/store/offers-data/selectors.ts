@@ -11,6 +11,7 @@ export const getOfferDetailed = (state: State): Offer | undefined => state[NameS
 export const getOffersNearby = (state: State): Offer[] => state[NameSpace.OffersData].offersNearby;
 export const getIsOfferNotFound = (state: State): boolean => state[NameSpace.OffersData].isOfferNotFound;
 export const getComments = (state: State): Comment[] => state[NameSpace.OffersData].comments;
+export const getIsCommentSaving = (state: State): boolean => state[NameSpace.OffersData].isCommentSaving;
 
 export const getOffersByCity = createSelector(
   [getOffers, (state: State) => state[NameSpace.App].cityName],
