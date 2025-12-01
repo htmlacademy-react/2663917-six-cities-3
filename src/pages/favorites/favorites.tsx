@@ -4,12 +4,14 @@ import {Link} from 'react-router-dom';
 import {useAppSelector} from '../../hooks';
 import {getFavorites} from '../../store/offers-data/selectors';
 import HeaderUserProfile from '../../components/header-user-profile/header-user-profile';
+import FavoritesEmpty from '../favorites-empty/favorites-empty';
 
 function Favorites(): JSX.Element {
   const favoriteOffers = useAppSelector(getFavorites);
+  const isEmpty = favoriteOffers.length === 0;
 
   return (
-    <div className="page">
+    <div className={`page${isEmpty ? ' page--favorites-empty' : ''}`}>
       <Helmet>
         <title>6 cities: favorites</title>
       </Helmet>
@@ -26,11 +28,17 @@ function Favorites(): JSX.Element {
         </div>
       </header>
 
-      <main className="page__main page__main--favorites">
+      <main className={`page__main page__main--favorites${isEmpty ? ' page__main--favorites-empty' : ''}`}>
         <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <FavoritesList offers={favoriteOffers} />
+          <section className={`favorites${isEmpty ? ' favorites--empty' : ''}`}>
+            {isEmpty ? (
+              <FavoritesEmpty />
+            ) : (
+              <>
+                <h1 className="favorites__title">Saved listing</h1>
+                <FavoritesList offers={favoriteOffers} />
+              </>
+            )}
           </section>
         </div>
       </main>

@@ -1,6 +1,6 @@
 class RatingStarsWidthResolver {
   public static resolve(rating: number): string {
-    const starsCount = Math.floor(rating);
+    const starsCount = Math.round(rating);
     return `${starsCount * 20}%`;
   }
 }

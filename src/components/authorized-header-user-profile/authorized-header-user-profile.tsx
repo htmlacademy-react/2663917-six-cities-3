@@ -4,6 +4,7 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import './authorized-header-user-profile.css';
 import {Offer} from '../../types/offer';
 import {getFavorites} from '../../store/offers-data/selectors';
+import {AppRoute} from '../../Const';
 
 type AuthorizedHeaderUserProfileProps = {
   userAvatarUrl: string;
@@ -22,7 +23,7 @@ function AuthorizedHeaderUserProfile({userAvatarUrl, userEmail}: AuthorizedHeade
   return (
     <ul className="header__nav-list">
       <li className="header__nav-item user">
-        <Link className="header__nav-link header__nav-link--profile" to="#">
+        <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
           <div className="header__avatar-wrapper user__avatar-wrapper">
             <img src={userAvatarUrl} alt="User avatar" />
           </div>

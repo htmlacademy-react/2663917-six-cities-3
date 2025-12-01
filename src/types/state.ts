@@ -20,6 +20,7 @@ export type OffersData = {
   favorites: Offer[];
   isOfferNotFound: boolean;
   isDataLoading: boolean;
+  isCommentSaving: boolean;
 }
 
 export type AppProcess = {

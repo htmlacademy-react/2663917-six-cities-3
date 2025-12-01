@@ -14,19 +14,17 @@ const SORT_OPTIONS = [
 ];
 
 function SortOptions({sortType, onSortTypeChange}: SortOptionsProps): JSX.Element | null {
-  const [activeSortType, setActiveSortType] = useState(sortType);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleSortChange = (newSortType: SortType) => {
     setIsOpen(false);
-    if (newSortType === activeSortType) {
+    if (newSortType === sortType) {
       return;
     }
-    setActiveSortType(newSortType);
     onSortTypeChange(newSortType);
   };
 
-  if (activeSortType === undefined) {
+  if (sortType === undefined) {
     return null;
   }
 
@@ -34,7 +32,7 @@ function SortOptions({sortType, onSortTypeChange}: SortOptionsProps): JSX.Elemen
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
       <span className="places__sorting-type" tabIndex={0} onClick={() => setIsOpen(!isOpen)} >
-        {SORT_OPTIONS[activeSortType].label}
+        {SORT_OPTIONS[sortType].label}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
@@ -44,7 +42,7 @@ function SortOptions({sortType, onSortTypeChange}: SortOptionsProps): JSX.Elemen
           (
             <li
               key={id}
-              className={`places__option ${activeSortType === id ? 'places__option--active' : ''}`}
+              className={`places__option ${sortType === id ? 'places__option--active' : ''}`}
               tabIndex={0}
               onClick={() => handleSortChange(id)}
             >
