@@ -5,6 +5,7 @@ import { Map, TileLayer } from 'leaflet';
 function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: City): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef(false);
+  const mapInstanceRef = useRef<Map | null>(null);
   useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = new Map(mapRef.current, {
@@ -25,11 +26,18 @@ function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: City): Map |
 
       instance.addLayer(layer);
       setMap(instance);
+      mapInstanceRef.current = instance;
       isRenderedRef.current = true;
     } else if (map !== null) {
       map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
     }
   }, [map, mapRef, city]);
+
+  useEffect(() => () => {
+    mapInstanceRef.current?.remove();
+    isRenderedRef.current = false;
+    setMap(null);
+  }, []);
 
   return map;
 }

@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ReviewForm from './review-form';
 import { withBrowserRouter, withStore } from '../../utils/mock-component';
-import { APIRoute, AuthorizationStatus, NameSpace } from '../../Const';
+import { APIRoute, AuthorizationStatus, NameSpace } from '../../const';
 import { extractActionsTypes, makeFakeComment } from '../../utils/mocks';
 import { saveCommentAction } from '../../store/api-actions';
 

@@ -1,11 +1,12 @@
 import { City } from './city';
 import { Host } from './host';
 import { Location } from './location';
+import { OfferType } from './offer-type';
 
 export type OfferDetailed = {
     id: string;
     title: string;
-    type: 'house' | 'room' | 'hotel' | 'apartment';
+    type: OfferType;
     price: number;
     city: City;
     location: Location;

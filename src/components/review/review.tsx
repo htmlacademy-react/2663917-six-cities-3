@@ -11,7 +11,7 @@ const formatDate = (date: Date) =>
     month: 'long',
   }).format(date);
 
-function Review({comment}: ReviewProps): JSX.Element {
+function Review({comment}: ReviewProps) {
   const date = new Date(comment.date);
 
   return (

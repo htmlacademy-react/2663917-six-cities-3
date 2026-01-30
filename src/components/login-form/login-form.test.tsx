@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import LoginForm from './login-form';
 import { withBrowserRouter, withStore } from '../../utils/mock-component';
-import { APIRoute, AppRoute, AuthorizationStatus, NameSpace } from '../../Const';
+import { APIRoute, AppRoute, AuthorizationStatus, NameSpace } from '../../const';
 import { extractActionsTypes, makeFakeUserData } from '../../utils/mocks';
 import { loginAction, fetchOffersAction } from '../../store/api-actions';
 

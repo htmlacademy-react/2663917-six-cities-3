@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import App from './app';
 import { withStore } from '../../utils/mock-component';
-import { AppRoute, AuthorizationStatus, NameSpace } from '../../Const';
+import { AppRoute, AuthorizationStatus, NameSpace } from '../../const';
 import { extractActionsTypes } from '../../utils/mocks';
 import { fetchFavoritesAction } from '../../store/api-actions';
 import { cities } from '../../mocks/cities';

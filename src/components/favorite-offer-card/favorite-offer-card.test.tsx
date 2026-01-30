@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import FavoriteOfferCard from './favorite-offer-card';
 import { withBrowserRouter, withStore } from '../../utils/mock-component';
 import { makeFakeOffer, extractActionsTypes } from '../../utils/mocks';
-import { AuthorizationStatus, NameSpace, APIRoute, AppRoute } from '../../Const';
+import { AuthorizationStatus, NameSpace, APIRoute, AppRoute } from '../../const';
 import { changeFavoriteOfferStatusAction } from '../../store/api-actions';
 
 describe('Component: FavoriteOfferCard', () => {

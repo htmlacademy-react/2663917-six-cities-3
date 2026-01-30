@@ -1,6 +1,6 @@
 import './loading-screen.css';
 
-function LoadingScreen(): JSX.Element {
+function LoadingScreen() {
   return (
     <div className="loading-screen">
       <div className="spinner"></div>

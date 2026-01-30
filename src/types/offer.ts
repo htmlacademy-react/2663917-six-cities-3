@@ -1,10 +1,11 @@
 import { City } from './city';
 import { Location } from './location';
+import { OfferType } from './offer-type';
 
 export type Offer = {
     id: string;
     title: string;
-    type: 'house' | 'room' | 'hotel' | 'apartment';
+    type: OfferType;
     price: number;
     city: City;
     location: Location;

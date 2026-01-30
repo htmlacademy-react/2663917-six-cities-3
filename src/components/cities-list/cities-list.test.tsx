@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CitiesList from './cities-list';
 import { withStore } from '../../utils/mock-component';
-import { NameSpace } from '../../Const';
+import { NameSpace } from '../../const';
 import { extractActionsTypes } from '../../utils/mocks';
 import { changeCity } from '../../store/app-process/app-process';
 

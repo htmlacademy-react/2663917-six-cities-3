@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import FavoritesList from './favorites-list';
 import { withBrowserRouter, withStore } from '../../utils/mock-component';
 import { makeFakeOffer } from '../../utils/mocks';
-import { AuthorizationStatus, NameSpace } from '../../Const';
+import { AuthorizationStatus, NameSpace } from '../../const';
 
 describe('Component: FavoritesList', () => {
   it('should render correct number of FavoriteOfferCard components', () => {

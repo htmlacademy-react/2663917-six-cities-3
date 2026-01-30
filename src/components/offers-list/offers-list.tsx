@@ -1,4 +1,4 @@
-import {useState, memo, useCallback} from 'react';
+import {memo, useCallback} from 'react';
 import {Offers} from '../../types/offer';
 import PlaceCard from '../place-card/place-card';
 
@@ -10,16 +10,12 @@ type OffersListProps = {
   hoveredOfferId?: string | undefined;
 }
 
-function OffersList({offers, onActiveChange, className, cardVariant = 'cities', hoveredOfferId}: OffersListProps): JSX.Element {
-  const [, setActiveOfferId] = useState<string | undefined>(undefined);
-
+function OffersList({offers, onActiveChange, className, cardVariant = 'cities', hoveredOfferId}: OffersListProps) {
   const handleSetActive = useCallback((offerId: string) => {
-    setActiveOfferId(offerId);
     onActiveChange(offerId);
   }, [onActiveChange]);
 
   const handleResetActive = useCallback(() => {
-    setActiveOfferId(undefined);
     onActiveChange(undefined);
   }, [onActiveChange]);
 

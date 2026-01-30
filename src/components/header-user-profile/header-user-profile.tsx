@@ -1,10 +1,10 @@
 import {useAppSelector} from '../../hooks';
-import {AuthorizationStatus } from '../../Const';
+import {AuthorizationStatus } from '../../const';
 import {getAuthState} from '../../store/user-process/selectors';
 import AnonymousHeaderUserProfile from '../anonymous-header-user-profile/anonymous-header-user-profile';
 import AuthorizedHeaderUserProfile from '../authorized-header-user-profile/authorized-header-user-profile';
 
-function HeaderUserProfile(): JSX.Element {
+function HeaderUserProfile() {
   const {authorizationStatus, userData} = useAppSelector(getAuthState);
 
   return (

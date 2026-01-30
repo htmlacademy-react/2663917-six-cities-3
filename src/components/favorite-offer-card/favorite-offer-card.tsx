@@ -1,16 +1,16 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, generatePath } from 'react-router-dom';
 import RatingStarsWidthResolver from '../../utils/ratingStarsWidthResolver';
 import { Offer } from '../../types/offer';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeFavoriteOfferStatusAction } from '../../store/api-actions';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
-import { AuthorizationStatus, AppRoute } from '../../Const';
+import { AuthorizationStatus, AppRoute } from '../../const';
 
 type FavoriteOfferCardProps = {
     offer: Offer;
 }
 
-function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element {
+function FavoriteOfferCard({offer}: FavoriteOfferCardProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
@@ -37,7 +37,7 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element {
         </div>
       )}
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <Link to={`/offer/${offer.id}`}>
+        <Link to={generatePath(AppRoute.Offer, { id: offer.id })}>
           <img className="place-card__image" src={offer.previewImage} width="150" height="110" alt="Place image" />
         </Link>
       </div>
@@ -61,7 +61,7 @@ function FavoriteOfferCard({offer}: FavoriteOfferCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${offer.id}`}>
+          <Link to={generatePath(AppRoute.Offer, { id: offer.id })}>
             {offer.title}
           </Link>
         </h2>

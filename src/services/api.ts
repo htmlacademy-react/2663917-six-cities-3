@@ -2,7 +2,7 @@ import axios, {AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestCon
 import { getToken } from './token';
 import {processErrorHandle} from './process-error-handle';
 import { StatusCodes } from 'http-status-codes';
-import { AppRoute } from '../Const';
+import { AppRoute } from '../const';
 
 type DetailMessageType = {
   type: string;

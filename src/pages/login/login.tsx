@@ -11,13 +11,13 @@ type LoginProps = {
   cities: City[];
 }
 
-function Login({cities}: LoginProps): JSX.Element {
+function Login({cities}: LoginProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const randomCity = useMemo(() => {
     const randomIndex = Math.floor(Math.random() * cities.length);
     return cities[randomIndex];
-  }, []);
+  }, [cities]);
 
   const handleCityClick = () => {
     dispatch(changeCity(randomCity.name));

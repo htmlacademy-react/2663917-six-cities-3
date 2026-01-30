@@ -9,15 +9,18 @@ import {Point} from '../../types/point';
 import OffersList from '../../components/offers-list/offers-list';
 import {useEffect, useMemo} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeFavoriteOfferStatusAction, fetchCommentsAction, fetchOfferAction, fetchOffersNearbyAction} from '../../store/api-actions';
-import {AppRoute, AuthorizationStatus} from '../../Const';
+import {changeFavoriteOfferStatusAction, fetchOfferPageData} from '../../store/api-actions';
+import {AppRoute, AuthorizationStatus} from '../../const';
 import {setResourceNotFound} from '../../store/offers-data/offers-data';
 import {getOfferPageData} from '../../store/offers-data/selectors';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
 import HeaderUserProfile from '../../components/header-user-profile/header-user-profile';
 import RatingStarsWidthResolver from '../../utils/ratingStarsWidthResolver';
 
-function Offer(): JSX.Element | null {
+const MAX_OFFER_IMAGES = 6;
+const MAX_NEARBY_OFFERS = 3;
+
+function Offer() {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const {offerDetailed, isOfferNotFound, offersNearby, comments} = useAppSelector(getOfferPageData);
@@ -25,24 +28,34 @@ function Offer(): JSX.Element | null {
   const navigate = useNavigate();
   const isAuth = authorizationStatus === AuthorizationStatus.Auth;
   useEffect(() => {
-    if (isOfferNotFound) {
+    let isMounted = true;
+
+    if (isOfferNotFound && isMounted) {
       navigate(AppRoute.NotFound);
       dispatch(setResourceNotFound(false));
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [isOfferNotFound, navigate, dispatch]);
   useEffect(() => {
-    if (id) {
-      dispatch(fetchOfferAction(id));
-      dispatch(fetchOffersNearbyAction(id));
-      dispatch(fetchCommentsAction(id));
+    let isMounted = true;
+
+    if (id && isMounted) {
+      dispatch(fetchOfferPageData(id));
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [dispatch, id]);
 
   const points: Point[] = useMemo(() => {
     if (!offerDetailed) {
-      return convertToPoints(offersNearby.slice(0, 3));
+      return convertToPoints(offersNearby.slice(0, MAX_NEARBY_OFFERS));
     }
-    const nearbyPoints = convertToPoints(offersNearby.slice(0, 3));
+    const nearbyPoints = convertToPoints(offersNearby.slice(0, MAX_NEARBY_OFFERS));
     const currentPoint: Point = {
       id: offerDetailed.id,
       latitude: offerDetailed.location.latitude,
@@ -88,7 +101,7 @@ function Offer(): JSX.Element | null {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {offerDetailed.images.slice(0, 6).map((img) => (
+              {offerDetailed.images.slice(0, MAX_OFFER_IMAGES).map((img) => (
                 <div className="offer__image-wrapper" key={img}>
                   <img className="offer__image" src={img} alt="Photo studio" />
                 </div>
@@ -125,10 +138,10 @@ function Offer(): JSX.Element | null {
                   {offerDetailed.type}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {offerDetailed.bedrooms} Bedrooms
+                  {offerDetailed.bedrooms} {offerDetailed.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {offerDetailed.maxAdults} adults
+                  Max {offerDetailed.maxAdults} {offerDetailed.maxAdults === 1 ? 'adult' : 'adults'}
                 </li>
               </ul>
               <div className="offer__price">
@@ -181,7 +194,7 @@ function Offer(): JSX.Element | null {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <OffersList
-              offers={offersNearby.slice(0, 3)}
+              offers={offersNearby.slice(0, MAX_NEARBY_OFFERS)}
               onActiveChange={() => {}}
               className="near-places__list places__list"
               cardVariant="near-places"

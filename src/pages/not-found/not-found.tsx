@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
-function NotFound(): JSX.Element {
+function NotFound() {
   return (
     <Fragment>
       <Helmet>

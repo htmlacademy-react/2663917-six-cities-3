@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SortOptions from './sort-options';
-import { SortType } from '../../Const';
+import { SortType } from '../../const';
 
 describe('Component: SortOptions', () => {
   const mockOnSortTypeChange = vi.fn();

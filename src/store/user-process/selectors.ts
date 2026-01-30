@@ -1,4 +1,4 @@
-import {AuthorizationStatus, NameSpace} from '../../Const';
+import {AuthorizationStatus, NameSpace} from '../../const';
 import {State} from '../../types/state';
 import {UserData} from '../../types/user-data';
 import {createSelector} from '@reduxjs/toolkit';

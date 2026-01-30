@@ -17,7 +17,7 @@ import {
   saveCommentAction,
   changeFavoriteOfferStatusAction,
 } from './api-actions';
-import { APIRoute } from '../Const';
+import { APIRoute } from '../const';
 import * as tokenStorage from '../services/token';
 
 describe('Async actions', () => {

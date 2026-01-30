@@ -8,7 +8,7 @@ import FavoritesEmpty from '../favorites-empty/favorites-empty';
 import {fetchFavoritesAction} from '../../store/api-actions';
 import {useEffect} from 'react';
 
-function Favorites(): JSX.Element {
+function Favorites() {
   const favoriteOffers = useAppSelector(getFavorites);
   const dispatch = useAppDispatch();
   const isEmpty = favoriteOffers.length === 0;

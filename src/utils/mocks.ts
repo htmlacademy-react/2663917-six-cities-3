@@ -6,6 +6,7 @@ import { UserData } from '../types/user-data';
 import { User } from '../types/user';
 import { City } from '../types/city';
 import { Location } from '../types/location';
+import { OfferType } from '../types/offer-type';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { State } from '../types/state';
@@ -24,8 +25,8 @@ export const makeFakeCity = (): City => ({
   location: makeFakeLocation(),
 });
 
-const getRandomOfferType = (): 'house' | 'room' | 'hotel' | 'apartment' => {
-  const types: ('house' | 'room' | 'hotel' | 'apartment')[] = ['house', 'room', 'hotel', 'apartment'];
+const getRandomOfferType = (): OfferType => {
+  const types: OfferType[] = ['house', 'room', 'hotel', 'apartment'];
   return types[datatype.number({ min: 0, max: 3 })];
 };
 

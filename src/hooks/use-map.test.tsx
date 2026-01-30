@@ -6,10 +6,12 @@ import { City } from '../types/city';
 
 const mockSetView = vi.fn();
 const mockAddLayer = vi.fn();
+const mockRemove = vi.fn();
 vi.mock('leaflet', () => ({
   Map: vi.fn(() => ({
     setView: mockSetView,
     addLayer: mockAddLayer,
+    remove: mockRemove,
   })),
   TileLayer: vi.fn(),
 }));
@@ -27,6 +29,7 @@ describe('Hook: useMap', () => {
   beforeEach(() => {
     mockSetView.mockClear();
     mockAddLayer.mockClear();
+    mockRemove.mockClear();
     (Map as unknown as ReturnType<typeof vi.fn>).mockClear();
   });
 

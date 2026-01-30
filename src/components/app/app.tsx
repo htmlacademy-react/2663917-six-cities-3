@@ -1,5 +1,5 @@
 import {Route, BrowserRouter, Routes} from 'react-router-dom';
-import {AppRoute } from '../../Const';
+import {AppRoute } from '../../const';
 import Main from '../../pages/main/main';
 import Favorites from '../../pages/favorites/favorites';
 import Login from '../../pages/login/login';
@@ -16,7 +16,7 @@ type AppProps = {
   cities: City[];
 }
 
-function App({cities}: AppProps): JSX.Element {
+function App({cities}: AppProps) {
   const {isDataLoading} = useAppSelector(getAppState);
 
   if (isDataLoading) {

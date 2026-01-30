@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import HeaderUserProfile from './header-user-profile';
 import { withBrowserRouter, withStore } from '../../utils/mock-component';
 import { makeFakeUserData } from '../../utils/mocks';
-import { AuthorizationStatus, NameSpace } from '../../Const';
+import { AuthorizationStatus, NameSpace } from '../../const';
 
 describe('Component: HeaderUserProfile', () => {
   it('should render AnonymousHeaderUserProfile when user is not authorized', () => {

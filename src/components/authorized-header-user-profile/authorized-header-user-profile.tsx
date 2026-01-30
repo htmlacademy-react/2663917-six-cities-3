@@ -4,14 +4,14 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import './authorized-header-user-profile.css';
 import {Offer} from '../../types/offer';
 import {getFavorites} from '../../store/offers-data/selectors';
-import {AppRoute} from '../../Const';
+import {AppRoute} from '../../const';
 
 type AuthorizedHeaderUserProfileProps = {
   userAvatarUrl: string;
   userEmail: string;
 }
 
-function AuthorizedHeaderUserProfile({userAvatarUrl, userEmail}: AuthorizedHeaderUserProfileProps): JSX.Element {
+function AuthorizedHeaderUserProfile({userAvatarUrl, userEmail}: AuthorizedHeaderUserProfileProps) {
   const dispatch = useAppDispatch();
   const favoriteOffers: Offer[] = useAppSelector(getFavorites);
 

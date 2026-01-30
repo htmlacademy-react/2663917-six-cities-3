@@ -1,5 +1,5 @@
 import { useState, memo } from 'react';
-import { SortType } from '../../Const';
+import { SortType } from '../../const';
 
 type SortOptionsProps = {
   sortType: SortType | undefined;
@@ -11,9 +11,9 @@ const SORT_OPTIONS = [
   { id: SortType.PriceLowToHigh, label: 'Price: low to high' },
   { id: SortType.PriceHighToLow, label: 'Price: high to low' },
   { id: SortType.TopRated, label: 'Top rated first' }
-];
+] as const;
 
-function SortOptions({sortType, onSortTypeChange}: SortOptionsProps): JSX.Element | null {
+function SortOptions({sortType, onSortTypeChange}: SortOptionsProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleSortChange = (newSortType: SortType) => {

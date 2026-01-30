@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
-import {AppRoute} from '../../Const';
+import {AppRoute} from '../../const';
 
-function AnonymousHeaderUserProfile(): JSX.Element {
+function AnonymousHeaderUserProfile() {
   return (
     <ul className="header__nav-list">
       <li className="header__nav-item user">

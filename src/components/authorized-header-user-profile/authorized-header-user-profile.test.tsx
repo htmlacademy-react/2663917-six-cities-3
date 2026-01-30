@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import AuthorizedHeaderUserProfile from './authorized-header-user-profile';
 import { withBrowserRouter, withStore } from '../../utils/mock-component';
 import { makeFakeOffer, extractActionsTypes } from '../../utils/mocks';
-import { APIRoute, NameSpace } from '../../Const';
+import { APIRoute, NameSpace } from '../../const';
 import { logoutAction } from '../../store/api-actions';
 
 describe('Component: AuthorizedHeaderUserProfile', () => {

@@ -6,7 +6,7 @@ type FavoritesListProps = {
     offers: Offers;
 }
 
-function FavoritesList({offers}: FavoritesListProps): JSX.Element {
+function FavoritesList({offers}: FavoritesListProps) {
   const groupedOffers = offers.reduce((acc, offer) => {
     const country = offer.city.name;
     if (!acc[country]) {

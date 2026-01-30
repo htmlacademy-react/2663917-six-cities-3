@@ -1,4 +1,4 @@
-import { SortType } from '../Const';
+import { SortType } from '../const';
 import { Offer } from '../types/offer';
 
 export function sortOffers(offers: Offer[], sortType: SortType | undefined): Offer[] {

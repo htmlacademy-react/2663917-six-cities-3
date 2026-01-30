@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { Route, Routes } from 'react-router-dom';
 import PrivateRoute from './private-route';
 import { withStore, withBrowserRouter } from '../../utils/mock-component';
-import { AppRoute, AuthorizationStatus, NameSpace } from '../../Const';
+import { AppRoute, AuthorizationStatus, NameSpace } from '../../const';
 
 describe('Component: PrivateRoute', () => {
   it('should render children when user is authorized', () => {

@@ -1,7 +1,7 @@
 import {createSlice, isRejectedWithValue} from '@reduxjs/toolkit';
 import {UserProcess} from '../../types/state';
 import {checkAuthAction, loginAction, logoutAction} from '../api-actions';
-import { AuthorizationStatus, NameSpace } from '../../Const';
+import { AuthorizationStatus, NameSpace } from '../../const';
 import { StatusCodes } from 'http-status-codes';
 
 const initialState: UserProcess = {

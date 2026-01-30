@@ -1,7 +1,7 @@
 import { makeFakeUserData } from '../../utils/mocks';
 import { checkAuthAction, loginAction, logoutAction } from '../api-actions';
 import { userProcess } from './user-process';
-import { AuthorizationStatus } from '../../Const';
+import { AuthorizationStatus } from '../../const';
 
 describe('UserProcess Slice', () => {
   it('should return initial state with empty action', () => {

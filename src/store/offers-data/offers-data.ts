@@ -1,6 +1,6 @@
 import {createSlice, isRejectedWithValue, PayloadAction} from '@reduxjs/toolkit';
 import {fetchOffersAction, fetchOfferAction, fetchOffersNearbyAction, fetchCommentsAction, fetchFavoritesAction, saveCommentAction, logoutAction} from '../api-actions'; // Скоро обновим api-actions
-import {NameSpace} from '../../Const';
+import {NameSpace} from '../../const';
 import {OffersData} from '../../types/state';
 import {StatusCodes} from 'http-status-codes';
 import { OfferDetailed } from '../../types/offer-detailed';

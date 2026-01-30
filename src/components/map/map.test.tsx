@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import Map from './map';
-import { CITY } from '../../Const';
+import { CITY } from '../../const';
 import { Point } from '../../types/point';
 
 describe('Component: Map', () => {

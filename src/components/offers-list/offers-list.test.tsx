@@ -2,7 +2,7 @@ import { render, fireEvent } from '@testing-library/react';
 import OffersList from './offers-list';
 import { withBrowserRouter, withStore } from '../../utils/mock-component';
 import { makeFakeOffer } from '../../utils/mocks';
-import { AuthorizationStatus, NameSpace } from '../../Const';
+import { AuthorizationStatus, NameSpace } from '../../const';
 
 describe('Component: OffersList', () => {
   it('should render correct number of PlaceCard components', () => {

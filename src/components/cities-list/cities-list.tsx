@@ -8,7 +8,7 @@ type CitiesListProps = {
     cities: City[];
 }
 
-function CitiesList({cities}: CitiesListProps): JSX.Element {
+function CitiesList({cities}: CitiesListProps) {
   const currentCityName = useAppSelector(getCityName);
   const dispatch = useAppDispatch();
 

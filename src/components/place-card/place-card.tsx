@@ -1,10 +1,10 @@
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, useNavigate, generatePath} from 'react-router-dom';
 import {Offer} from '../../types/offer';
 import RatingStarsWidthResolver from '../../utils/ratingStarsWidthResolver';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {changeFavoriteOfferStatusAction} from '../../store/api-actions';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
-import {AuthorizationStatus, AppRoute} from '../../Const';
+import {AuthorizationStatus, AppRoute} from '../../const';
 import {memo} from 'react';
 
 import './place-card.css';
@@ -17,7 +17,7 @@ type PlaceCardProps = {
   isHovered?: boolean;
 }
 
-function PlaceCard({offer, onSetActive, onResetActive, cardVariant = 'cities', isHovered = false}: PlaceCardProps): JSX.Element {
+function PlaceCard({offer, onSetActive, onResetActive, cardVariant = 'cities', isHovered = false}: PlaceCardProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
@@ -55,7 +55,7 @@ function PlaceCard({offer, onSetActive, onResetActive, cardVariant = 'cities', i
         </div>
       )}
       <div className={imageWrapperClass}>
-        <Link to={`/offer/${offer.id}`}>
+        <Link to={generatePath(AppRoute.Offer, { id: offer.id })}>
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place image" />
         </Link>
       </div>
@@ -79,7 +79,7 @@ function PlaceCard({offer, onSetActive, onResetActive, cardVariant = 'cities', i
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${offer.id}`}>
+          <Link to={generatePath(AppRoute.Offer, { id: offer.id })}>
             {offer.title}
           </Link>
         </h2>
